@@ -1,0 +1,17 @@
+<main class="container">
+  <%= turbo_stream_from "rounds" %>
+
+  <div class="header">
+    <h1>Rounds</h1>
+    <%= link_to "New round",
+                new_round_path,
+                class: "btn btn--primary",
+                data: { turbo_frame: "new_round" } %>
+  </div>
+
+  <%= turbo_frame_tag Round.new %>
+
+  <%= turbo_frame_tag "round" do %>
+    <%= render @round %>
+  <% end %>
+</main>
