@@ -1,23 +1,26 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
 RSpec.describe Round do
-  subject { round }
+  let!(:round) { create(:round) }
+  let(:user) { create(:user) }
 
-  let(:round) { build(:round) }
+  describe 'validations' do
+    subject { round }
 
-  it { is_expected.to be_valid }
+    it { is_expected.to be_valid }
 
-  context 'when title is blank' do
-    let(:round) { build(:round, title: nil) }
+    context 'when title is blank' do
+      before { round.title = nil }
 
-    it { is_expected.not_to be_valid }
-  end
+      it { is_expected.not_to be_valid }
+    end
 
-  context 'when title is not unique' do
-    before { create(:round, title: round.title) }
+    context 'when title is not unique' do
+      let!(:other_round) { create(:round) }
 
-    it { is_expected.not_to be_valid }
+      before { round.title = other_round.title }
+
+      it { is_expected.not_to be_valid }
+    end
   end
 end
