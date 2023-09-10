@@ -2,8 +2,12 @@
 
 Rails.application.routes.draw do
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  root to: 'rounds#index'
+
+  resources :rounds, only: %i[index show] do
+    resources :tasks, shallow: true do
+      post :start, on: :member
+    end
+  end
 end
