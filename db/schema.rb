@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_03_191523) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_091814) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_03_191523) do
     t.datetime "updated_at", null: false
     t.index ["task_id"], name: "index_estimations_on_task_id"
     t.index ["user_id"], name: "index_estimations_on_user_id"
+  end
+
+  create_table "round_users", force: :cascade do |t|
+    t.bigint "round_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["round_id"], name: "index_round_users_on_round_id"
+    t.index ["user_id"], name: "index_round_users_on_user_id"
   end
 
   create_table "rounds", force: :cascade do |t|
@@ -53,5 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_03_191523) do
 
   add_foreign_key "estimations", "tasks"
   add_foreign_key "estimations", "users"
+  add_foreign_key "round_users", "rounds"
+  add_foreign_key "round_users", "users"
   add_foreign_key "tasks", "rounds"
 end
