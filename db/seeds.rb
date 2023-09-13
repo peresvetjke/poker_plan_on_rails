@@ -6,3 +6,8 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+%w[Frontend Backend].each do |t|
+  round = Round.create!(title: t)
+  (1..3).each { |n| round.tasks.create!(title: "Task ##{n}") }
+end
