@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :rounds, only: %i[index show] do
     resources :tasks, shallow: true do
       post :start, on: :member
+      post :stop, on: :member
     end
   end
 end

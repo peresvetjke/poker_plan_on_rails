@@ -6,7 +6,11 @@ html
     meta[name="viewport" content="width=device-width,initial-scale=1"]
     = csrf_meta_tags
     = csp_meta_tag
+    = stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload"
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+    = hotwire_livereload_tags
   body
-    = yield
+    = render Navbar::Component.new(user: current_user)
+    .mt-8.text-center.relative.bg-white.px-6.pt-10.pb-8.shadow-xl.ring-1.ring-gray-900/5.sm:mx-auto.sm:max-w-lg.sm:rounded-lg.sm:px-10
+      = yield

@@ -29,7 +29,11 @@ gem 'stimulus-rails'
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
 gem 'cssbundling-rails'
 
+# CSS framework
 gem 'tailwindcss-rails'
+
+# Icons
+gem 'font-awesome-rails'
 
 # Slim
 gem 'slim-rails'
@@ -90,3 +94,5 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
+
+gem "hotwire-livereload", "~> 1.2", :group => :development

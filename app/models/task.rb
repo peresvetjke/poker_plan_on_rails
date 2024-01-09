@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
 class Task < ApplicationRecord
+  STATE_ORDER = %w[ongoing idle finished].freeze
+
   enum :state, %i[idle ongoing finished]
 
   belongs_to :round
   has_many :estimations, dependent: :destroy
 
   validates :title, presence: true
+
+  scope :by_state, -> { in_order_of(:state, STATE_ORDER) }
+
+  default_scope { by_state }
 
   def start!
     return unless idle?

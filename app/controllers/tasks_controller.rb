@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[show update destroy start]
+  before_action :set_task, only: %i[show update destroy start stop]
 
   def index
   end
@@ -24,6 +24,12 @@ class TasksController < ApplicationController
 
   def start
     @task.start!
+
+    redirect_to @task.round
+  end
+
+  def stop
+    @task.stop!
 
     redirect_to @task.round
   end

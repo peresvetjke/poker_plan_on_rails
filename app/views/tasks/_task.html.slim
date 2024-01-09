@@ -1,8 +1,1 @@
-div
-  p
-    = task.title
-  p
-    |  State: 
-    = task.state
-  p
-    = button_to 'Start' , start_task_path(task)
+= render Task::Component.new(task: task)

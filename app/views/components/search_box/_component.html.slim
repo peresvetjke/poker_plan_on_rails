@@ -1,0 +1,8 @@
+= form_with(url: c.action) do |f|
+  div
+    i.fa.fa-search
+
+  = f.search_field :q, placeholder: c.placeholder
+
+  - if c.button?
+    = f.submit "Search"
