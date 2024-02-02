@@ -50,7 +50,7 @@ RSpec.describe User do
     it { is_expected.to be_empty }
 
     context 'with estimations' do
-      before { create(:estimation, task: task, user: john, value: 3) }
+      before { create(:estimation, task:, user: john, value: 3) }
 
       it { is_expected.to contain_exactly(john) }
     end

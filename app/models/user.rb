@@ -12,13 +12,13 @@ class User < ApplicationRecord
   scope :with_estimation_of_task, ->(task_id) { User.joins(estimations: :task).where(estimations: { task: task_id }) }
 
   def join(round_id)
-    round_user = round_users.find_by(round_id: round_id)
+    round_user = round_users.find_by(round_id:)
     return if round_user.present?
 
-    round_users.create!(round_id: round_id)
+    round_users.create!(round_id:)
   end
 
   def leave(round_id)
-    round_users.find_by(round_id: round_id)&.destroy
+    round_users.find_by(round_id:)&.destroy
   end
 end
