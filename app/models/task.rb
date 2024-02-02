@@ -12,7 +12,7 @@ class Task < ApplicationRecord
     return unless idle?
 
     ActiveRecord::Base.transaction do
-      Task.ongoing.where(round_id: round_id).update(state: :idle)
+      Task.ongoing.where(round_id:).update(state: :idle)
       ongoing!
     end
   end
@@ -30,7 +30,7 @@ class Task < ApplicationRecord
     return estimation.destroy! if estimation.value == value
 
     ActiveRecord::Base.transaction do
-      estimation.update(value: value)
+      estimation.update(value:)
       finished! if evaluated?
     end
   end

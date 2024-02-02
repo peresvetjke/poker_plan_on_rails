@@ -84,7 +84,7 @@ RSpec.describe Task do
 
       # rubocop:disable RSpec/NestedGroups, RSpec/MultipleMemoizedHelpers
       context 'with existing estimation' do
-        before { create(:estimation, task: task, user: john, value: old_value) }
+        before { create(:estimation, task:, user: john, value: old_value) }
 
         context 'with same value' do
           let(:old_value) { value }
@@ -102,7 +102,7 @@ RSpec.describe Task do
       end
 
       context 'when last user estimation' do
-        before { create(:estimation, task: task, user: mike, value: 1) }
+        before { create(:estimation, task:, user: mike, value: 1) }
 
         it { expect { estimate }.to change(task, :state).from('ongoing').to('finished') }
       end
