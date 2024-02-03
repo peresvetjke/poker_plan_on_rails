@@ -40,6 +40,11 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  # Browser tests configuration
+  # Capybara.javascript_driver = :selenium_chrome
+  Capybara.javascript_driver = :selenium_chrome_headless
+  Capybara.default_max_wait_time = 2
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 

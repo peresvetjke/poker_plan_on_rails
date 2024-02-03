@@ -1,0 +1,8 @@
+<%= link_to sanitize("&larr; Back to rounds"), rounds_path %>
+<div>
+  <h1>
+    <%= @round.title %>
+  </h1>
+
+  <%= render @round.tasks %>
+</div>

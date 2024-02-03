@@ -1,0 +1,3 @@
+<%= turbo_stream.prepend "round", @round %>
+<%= turbo_stream.update Round.new, "" %>
+<%= render_turbo_stream_flash_messages %>

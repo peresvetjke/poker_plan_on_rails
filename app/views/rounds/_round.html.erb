@@ -1,0 +1,14 @@
+<%= turbo_frame_tag round do %>
+  <div class="round">
+    <%= link_to round.title,
+                round_path(round),
+                data: { turbo_frame: "_top" } %>
+    <div class="round__actions">
+      <%= button_to "Delete",
+                    round_path(round),
+                    method: :delete %>
+      <%= link_to "Edit",
+                  edit_round_path(round) %>
+    </div>
+  </div>
+<% end %>
