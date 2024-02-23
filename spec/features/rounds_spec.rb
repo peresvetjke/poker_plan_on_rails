@@ -4,8 +4,12 @@ require 'rails_helper'
 
 describe 'User can manage rounds list.', js: true do
   let!(:round) { create(:round, :with_tasks) }
+  let(:user) { create(:user) }
 
-  before { visit rounds_path }
+  before do
+    sign_in user
+    visit rounds_path
+  end
 
   describe 'index' do
     it 'displays all rounds', aggregate_failures: true do

@@ -9,16 +9,19 @@ class User < ApplicationRecord
   has_many :round_users, dependent: :destroy
   has_many :rounds, through: :round_users
 
-  scope :with_estimation_of_task, ->(task_id) { User.joins(estimations: :task).where(estimations: { task: task_id }) }
+  validates :email, presence: true, uniqueness: true
+  validates :username, presence: true
 
-  def join(round_id)
-    round_user = round_users.find_by(round_id:)
-    return if round_user.present?
+  # scope :with_estimation_of_task, ->(task_id) { User.joins(estimations: :task).where(estimations: { task: task_id }) }
 
-    round_users.create!(round_id:)
-  end
+  # def join(round_id)
+  #   round_user = round_users.find_by(round_id:)
+  #   return if round_user.present?
 
-  def leave(round_id)
-    round_users.find_by(round_id:)&.destroy
-  end
+  #   round_users.create!(round_id:)
+  # end
+
+  # def leave(round_id)
+  #   round_users.find_by(round_id:)&.destroy
+  # end
 end

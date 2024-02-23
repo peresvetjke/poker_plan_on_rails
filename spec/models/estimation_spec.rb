@@ -1,29 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe Estimation do
-  subject { estimation }
-
-  let(:estimation) { build(:estimation) }
-
-  it { is_expected.to be_valid }
-
-  describe 'value' do
-    context 'when value is blank' do
-      let(:estimation) { build(:estimation, value: nil) }
-
-      it { is_expected.not_to be_valid }
+  describe 'validations' do
+    describe '#value' do
+      it { is_expected.to validate_presence_of(:value) }
+      it { is_expected.to validate_numericality_of(:value).only_integer.is_greater_than(0) }
     end
+  end
 
-    context 'when value is not integer' do
-      let(:estimation) { build(:estimation, value: 1.5) }
-
-      it { is_expected.not_to be_valid }
-    end
-
-    context 'when value is not positive' do
-      let(:estimation) { build(:estimation, value: -1) }
-
-      it { is_expected.not_to be_valid }
-    end
+  describe 'associations' do
+    it { is_expected.to belong_to(:user).class_name('User') }
+    it { is_expected.to belong_to(:task).class_name('Task') }
   end
 end

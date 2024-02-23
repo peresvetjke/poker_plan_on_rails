@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class RoundsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_round, only: %i[show edit update destroy]
 
   def index
-    @round = Round.ordered
+    @rounds = Round.ordered
   end
 
-  def show; end
+  def show
+    RoundUserCreator.new.call(round_id: params[:id], user_id: current_user.id)
+  end
 
   def new
     @round = Round.new
