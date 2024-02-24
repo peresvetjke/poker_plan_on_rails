@@ -22,7 +22,6 @@ describe 'User can manage tasks list.', js: true do
 
   describe 'create' do
     it 'allows to create new tasks' do
-      binding.irb
       click_on('New task')
     end
   end
