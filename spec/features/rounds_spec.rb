@@ -24,10 +24,12 @@ describe 'User can manage rounds list.', js: true do
   end
 
   describe 'show' do
-    it 'shows tasks' do
+    it 'shows tasks', aggregate_failures: true do
       sign_in user
       visit round_path(round)
-      expect(page).to have_text(round.tasks.first.title)
+      round.tasks.each do |task|
+        expect(page).to have_text(task.title)
+      end
     end
   end
 
