@@ -8,4 +8,6 @@ class Round < ApplicationRecord
   has_many :users, through: :round_users
 
   scope :ordered, -> { order(id: :desc) }
+
+  broadcasts_to ->(_round) { 'rounds' }, inserts_by: :prepend
 end
