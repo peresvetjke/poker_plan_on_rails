@@ -1,0 +1,6 @@
+<%= render "shared/errors", record: task %>
+<%= form_with model: [@round, task] do |f| %>
+  <%= f.text_field :title %>
+  <%= link_to "Cancel", round_path(task.round) %>
+  <%= f.submit "Save" %>
+<% end %>

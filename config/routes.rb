@@ -6,5 +6,7 @@ Rails.application.routes.draw do
 
   root 'rounds#index'
 
-  resources :rounds
+  resources :rounds do
+    resources :tasks, shallow: true
+  end
 end
