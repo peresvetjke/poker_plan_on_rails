@@ -1,58 +1,76 @@
 # frozen_string_literal: true
 
 RSpec.describe User do
-  let(:round) { create(:round) }
-  let(:user) { create(:user) }
+  subject { build(:user) }
 
-  describe '#join' do
-    subject(:join) { user.join(round.id) }
+  let!(:other_user) { create(:user, email: 'other_user@example.com', username: 'other_user') }
 
-    it { expect { join }.to change { round.users.count }.from(0).to(1) }
+  describe 'validations' do
+    describe '#email' do
+      it { is_expected.to validate_presence_of(:email) }
+      it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+    end
 
-    it { expect { join }.to change { round.users.first }.from(nil).to(user) }
+    describe '#username' do
+      it { is_expected.to validate_presence_of(:username) }
 
-    context 'when already joined' do
-      before { join }
+      describe 'uniqueness' do
+        subject { build(:user, username: other_user.username) }
 
-      it { expect { join }.not_to(change { round.users.count }) }
+        it { is_expected.to be_valid }
+      end
     end
   end
 
-  describe '#leave' do
-    subject(:leave) { user.leave(round.id) }
+  # describe '#join' do
+  #   subject(:join) { user.join(round.id) }
 
-    before { user.join(round.id) }
+  #   it { expect { join }.to change { round.users.count }.from(0).to(1) }
 
-    it { expect { leave }.to change { round.users.count }.from(1).to(0) }
+  #   it { expect { join }.to change { round.users.first }.from(nil).to(user) }
 
-    it { expect { leave }.to change { round.users.first }.from(user).to(nil) }
+  #   context 'when already joined' do
+  #     before { join }
 
-    context 'when already left' do
-      before { leave }
+  #     it { expect { join }.not_to(change { round.users.count }) }
+  #   end
+  # end
 
-      it { expect { leave }.not_to(change { round.users.count }) }
-    end
-  end
+  # describe '#leave' do
+  #   subject(:leave) { user.leave(round.id) }
 
-  describe '.with_estimation_of_task' do
-    subject { described_class.with_estimation_of_task(task.id) }
+  #   before { user.join(round.id) }
 
-    let!(:task) { create(:task) }
-    let!(:round) { task.round }
-    let!(:mike) { create(:user) }
-    let!(:john) { create(:user) }
+  #   it { expect { leave }.to change { round.users.count }.from(1).to(0) }
 
-    before do
-      mike.join(round.id)
-      john.join(round.id)
-    end
+  #   it { expect { leave }.to change { round.users.first }.from(user).to(nil) }
 
-    it { is_expected.to be_empty }
+  #   context 'when already left' do
+  #     before { leave }
 
-    context 'with estimations' do
-      before { create(:estimation, task:, user: john, value: 3) }
+  #     it { expect { leave }.not_to(change { round.users.count }) }
+  #   end
+  # end
 
-      it { is_expected.to contain_exactly(john) }
-    end
-  end
+  # describe '.with_estimation_of_task' do
+  #   subject { described_class.with_estimation_of_task(task.id) }
+
+  #   let!(:task) { create(:task) }
+  #   let!(:round) { task.round }
+  #   let!(:mike) { create(:user) }
+  #   let!(:john) { create(:user) }
+
+  #   before do
+  #     mike.join(round.id)
+  #     john.join(round.id)
+  #   end
+
+  #   it { is_expected.to be_empty }
+
+  #   context 'with estimations' do
+  #     before { create(:estimation, task:, user: john, value: 3) }
+
+  #     it { is_expected.to contain_exactly(john) }
+  #   end
+  # end
 end

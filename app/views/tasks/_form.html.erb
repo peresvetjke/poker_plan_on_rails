@@ -1,0 +1,10 @@
+<% if task.errors.any? %>
+  <div class="error-message">
+    <%= task.errors.full_messages.to_sentence.capitalize %>
+  </div>
+<% end %>
+<%= form_with model: [@round, task] do |f| %>
+  <%= f.text_field :title %>
+  <%= link_to "Cancel", round_path(task.round) %>
+  <%= f.submit "Save" %>
+<% end %>
