@@ -4,6 +4,12 @@ AllCops:
     - 'bin/**/*'
     - db/schema.rb
 
+RSpec/ExampleLength:
+  Max: 12
+
+RSpec/NestedGroups:
+  Max: 4
+
 Style/Documentation:
   Enabled: false
 
