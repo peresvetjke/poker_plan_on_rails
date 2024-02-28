@@ -3,7 +3,7 @@
 class DeviseCreateUsers < ActiveRecord::Migration[7.0]
   def change
     create_table :users do |t|
-      t.string :username, null: false
+      t.string :username
       t.string :is_moderator, null: false, default: false
 
       ## Database authenticatable
