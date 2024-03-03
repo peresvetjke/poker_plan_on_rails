@@ -75,7 +75,7 @@ describe 'User can manage tasks list.', js: true do
       sign_in user
       visit round_path(round)
       expect(page).to have_selector('.task', count: 2)
-      click_on 'Delete', match: :first
+      within("#task_#{round.tasks.first.id}") { click_on 'Delete' }
       expect(page).to have_selector('.task', count: 1)
     end
 
@@ -89,7 +89,7 @@ describe 'User can manage tasks list.', js: true do
       using_session 'user' do
         sign_in user
         visit round_path(round)
-        click_on 'Delete', match: :first
+        within("#task_#{round.tasks.first.id}") { click_on 'Delete' }
       end
       using_session 'other_user' do
         expect(page).to have_selector('.task', count: 1)

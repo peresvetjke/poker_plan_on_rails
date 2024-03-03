@@ -1,3 +1,4 @@
+<%= turbo_stream_from "round_#{@round.id}_round_users" %>
 <%= turbo_stream_from "#{@round.to_gid_param}:tasks" %>
 
 <%= link_to sanitize("&larr; Back to rounds"), rounds_path %>
@@ -12,8 +13,12 @@
   </div>
 
   <%= turbo_frame_tag Task.new %>
-    <%= turbo_frame_tag "round_#{@round.id}_tasks" do %>
-      <%= render @round.tasks %>
-    </div>
+
+  <%= turbo_frame_tag "round_#{@round.id}_round_users" do %>
+    <%= render @round.round_users %>
+  <% end %>
+
+  <%= turbo_frame_tag "round_#{@round.id}_tasks" do %>
+    <%= render @round.tasks %>
   <% end %>
 </div>
