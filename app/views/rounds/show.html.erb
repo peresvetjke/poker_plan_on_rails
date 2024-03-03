@@ -14,10 +14,6 @@
 
   <%= turbo_frame_tag Task.new %>
 
-  <%= turbo_frame_tag "round_#{@round.id}_round_users" do %>
-    <%= render @round.round_users %>
-  <% end %>
-
   <%= turbo_frame_tag "round_#{@round.id}_tasks" do %>
     <%= render @round.tasks %>
   <% end %>

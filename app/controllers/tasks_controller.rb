@@ -3,7 +3,7 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_round, only: %i[new create index]
-  before_action :set_task, only: %i[show edit update destroy]
+  before_action :set_task, only: %i[show edit update destroy start stop]
 
   def index
     @rounds = @round.tasks
@@ -50,6 +50,15 @@ class TasksController < ApplicationController
     respond_to do |format|
       format.html { redirect_to round_path(@task.round), notice: message }
       format.turbo_stream { flash.now[:notice] = message }
+    end
+  end
+
+  def start
+    Tasks::Start.new(@task).call
+
+    respond_to do |format|
+      format.html { redirect_to round_path(@task.round) }
+      format.turbo_stream { nil }
     end
   end
 

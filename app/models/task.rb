@@ -11,21 +11,6 @@ class Task < ApplicationRecord
   broadcasts_to ->(task) { [task.round, :tasks] }, inserts_by: :prepend,
                                                    target: ->(task) { "round_#{task.round_id}_tasks" }
 
-  def start!
-    return unless idle?
-
-    ActiveRecord::Base.transaction do
-      Task.ongoing.where(round_id:).update(state: :idle)
-      ongoing!
-    end
-  end
-
-  def stop!
-    return unless ongoing?
-
-    idle!
-  end
-
   def estimate(user, value)
     return unless ongoing?
 
