@@ -3,7 +3,7 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_round, only: %i[new create index]
-  before_action :set_task, only: %i[show edit update destroy]
+  before_action :set_task, only: %i[show edit update destroy start estimate]
 
   def index
     @rounds = @round.tasks
@@ -48,8 +48,27 @@ class TasksController < ApplicationController
 
     message = 'Task was successfully destroyed.'
     respond_to do |format|
-      format.html { redirect_to round_path(@task.round), notice: message }
+      format.html { redirect_to round_path(@task.round_id), notice: message }
       format.turbo_stream { flash.now[:notice] = message }
+    end
+  end
+
+  def start
+    Tasks::Start.new(task: @task).call
+
+    respond_to do |format|
+      format.html { redirect_to round_path(@task.round) }
+      format.turbo_stream { nil }
+    end
+  end
+
+  def estimate
+    estimation = Tasks::Estimate.new(user: current_user, task: @task).call(params[:value].to_i)
+    @value = estimation&.value
+
+    respond_to do |format|
+      format.html { redirect_to round_path(@task.round) }
+      format.turbo_stream { nil }
     end
   end
 

@@ -20,12 +20,11 @@ describe 'User can manage tasks list.', js: true do
       expect(page).to have_content(task_title)
     end
 
-    it 'streams new task to other users' do # rubocop:disable RSpec/ExampleLength
-      using_session 'other_user' do
-        sign_in other_user
-        visit round_path(round)
-        sleep 0.5
-      end
+    it 'streams new task to other users' do
+      sign_in other_user
+      visit round_path(round)
+      sleep 0.5
+
       using_session 'user' do
         sign_in user
         visit round_path(round)
@@ -33,9 +32,8 @@ describe 'User can manage tasks list.', js: true do
         fill_in 'task_title', with: task_title
         click_on 'Save'
       end
-      using_session 'other_user' do
-        expect(page).to have_content(task_title)
-      end
+
+      expect(page).to have_content(task_title)
     end
   end
 
@@ -49,12 +47,11 @@ describe 'User can manage tasks list.', js: true do
       expect(page).to have_content(task_title)
     end
 
-    it 'streams updates to other users' do # rubocop:disable RSpec/ExampleLength
-      using_session 'other_user' do
-        sign_in other_user
-        visit round_path(round)
-        sleep 0.5
-      end
+    it 'streams updates to other users' do
+      sign_in other_user
+      visit round_path(round)
+      sleep 0.5
+
       using_session 'user' do
         sign_in user
         visit round_path(round)
@@ -62,9 +59,8 @@ describe 'User can manage tasks list.', js: true do
         fill_in 'task_title', with: task_title
         click_on 'Save'
       end
-      using_session 'other_user' do
-        expect(page).to have_content(task_title)
-      end
+
+      expect(page).to have_content(task_title)
     end
   end
 
@@ -75,25 +71,23 @@ describe 'User can manage tasks list.', js: true do
       sign_in user
       visit round_path(round)
       expect(page).to have_selector('.task', count: 2)
-      click_on 'Delete', match: :first
+      within("#task_#{round.tasks.first.id}") { click_on 'Delete' }
       expect(page).to have_selector('.task', count: 1)
     end
 
-    it 'streams updates to other users', aggregate_failures: true do # rubocop:disable RSpec/ExampleLength
-      using_session 'other_user' do
-        sign_in other_user
-        visit round_path(round)
-        expect(page).to have_selector('.task', count: 2)
-        sleep 0.5
-      end
+    it 'streams updates to other users', aggregate_failures: true do
+      sign_in other_user
+      visit round_path(round)
+      expect(page).to have_selector('.task', count: 2)
+      sleep 0.5
+
       using_session 'user' do
         sign_in user
         visit round_path(round)
-        click_on 'Delete', match: :first
+        within("#task_#{round.tasks.first.id}") { click_on 'Delete' }
       end
-      using_session 'other_user' do
-        expect(page).to have_selector('.task', count: 1)
-      end
+
+      expect(page).to have_selector('.task', count: 1)
     end
   end
 end

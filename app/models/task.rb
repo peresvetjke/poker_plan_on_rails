@@ -8,37 +8,6 @@ class Task < ApplicationRecord
 
   validates :title, presence: true
 
-  broadcasts_to ->(task) { [task.round, :tasks] }, inserts_by: :prepend,
-                                                   target: ->(task) { "round_#{task.round_id}_tasks" }
-
-  def start!
-    return unless idle?
-
-    ActiveRecord::Base.transaction do
-      Task.ongoing.where(round_id:).update(state: :idle)
-      ongoing!
-    end
-  end
-
-  def stop!
-    return unless ongoing?
-
-    idle!
-  end
-
-  def estimate(user, value)
-    return unless ongoing?
-
-    estimation = estimations.find_or_initialize_by(user_id: user.id)
-    return estimation.destroy! if estimation.value == value
-
-    ActiveRecord::Base.transaction do
-      estimation.update(value:)
-      finished! if evaluated?
-    end
-  end
-
-  def evaluated?
-    User.with_estimation_of_task(id) == round.users
-  end
+  broadcasts_to ->(task) { "round_#{task.round_id}" }, target: 'tasks',
+                                                       inserts_by: :prepend
 end
