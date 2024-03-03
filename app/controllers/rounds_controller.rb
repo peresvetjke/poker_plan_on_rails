@@ -8,7 +8,9 @@ class RoundsController < ApplicationController
     @rounds = Round.ordered
   end
 
-  def show; end
+  def show
+    RoundUser.find_or_create_by(user_id: current_user.id, round_id: @round.id)
+  end
 
   def new
     @round = Round.new

@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   resources :rounds do
     resources :tasks, shallow: true
   end
+
+  resources :round_users, only: %i[destroy]
 end
