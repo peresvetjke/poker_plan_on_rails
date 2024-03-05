@@ -3,7 +3,7 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_round, only: %i[new create index]
-  before_action :set_task, only: %i[show edit update destroy start stop]
+  before_action :set_task, only: %i[show edit update destroy start estimate]
 
   def index
     @rounds = @round.tasks
@@ -54,7 +54,16 @@ class TasksController < ApplicationController
   end
 
   def start
-    Tasks::Start.new(@task).call
+    Tasks::Start.new(task: @task, round: @round).call
+
+    respond_to do |format|
+      format.html { redirect_to round_path(@task.round) }
+      format.turbo_stream { nil }
+    end
+  end
+
+  def estimate
+    @current_estimation = Tasks::Estimate.new(user: current_user, task: @task).call(params[:value].to_i)
 
     respond_to do |format|
       format.html { redirect_to round_path(@task.round) }
@@ -70,6 +79,7 @@ class TasksController < ApplicationController
 
   def set_task
     @task = Task.find(params[:id])
+    @round = @task.round
   end
 
   def task_params

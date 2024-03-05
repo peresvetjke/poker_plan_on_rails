@@ -1,0 +1,2 @@
+<%= turbo_stream.replace @task %>
+<%= turbo_stream.update "round_#{@round.id}_user_#{current_user.id}_estimation_panel", target: "round_#{@round.id}_user_#{current_user.id}_estimation_panel", partial: "rounds/estimation_panel", locals: { round: @task.round, user: current_user } %>

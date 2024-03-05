@@ -1,0 +1,13 @@
+<%# @param round_users AR::Relation[RoundUser]
+    @param users AR::Relation[User]
+    @param estimations_status [Hash] e.g. %{1 => true, 2 => false} , where 1,2 are user ids %>
+
+<% users.each do |user| %>
+  <%= user.username %>
+  <%= estimations_status[user.id] ? 'true' : 'false' %>
+  <div class="round_user__actions">
+    <%= button_to "Delete",
+                  round_user_path(round_users.find_by(user_id: user.id)),
+                  method: :delete %>
+  </div>
+<% end %>
