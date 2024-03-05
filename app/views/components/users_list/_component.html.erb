@@ -1,0 +1,9 @@
+<% round_users.each do |r_u| %>
+  <%= r_u.user.username %>
+  <%= voted_user_ids.include?(r_u.user_id) ? 'true' : 'false' %>
+  <div class="round_user__actions">
+    <%= button_to "Delete",
+                  round_user_path(r_u),
+                  method: :delete %>
+  </div>
+<% end %>

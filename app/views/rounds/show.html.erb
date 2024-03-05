@@ -1,5 +1,6 @@
 <%= turbo_stream_from "round_#{@round.id}_round_users" %>
 <%= turbo_stream_from "round_#{@round.id}_user_#{current_user.id}_estimation_panel" %>
+<%= turbo_stream_from "round_#{@round.id}_users_list" %>
 <%= turbo_stream_from "#{@round.to_gid_param}:tasks" %>
 
 <%= link_to sanitize("&larr; Back to rounds"), rounds_path %>
@@ -16,12 +17,12 @@
   <%= turbo_frame_tag Task.new %>
 
   <%= turbo_frame_tag "round_#{@round.id}_user_#{current_user.id}_estimation_panel" do %>
-    <%= render partial: 'estimation_panel', locals: { round: @round, user: current_user } %>
+    <%= render EstimationPanel::Component.new(round: @round, user: current_user) %>
   <% end %>
 
-  <%# <%= turbo_frame_tag "round_#{@round.id}_users_list" do %> %>
-    <%# <%= render partial: 'users_list', locals: { round_users: @round_users, users: @users, estimations_status: @round.estimations_status } %> %>
-  <%# <% end %> %>
+  <%= turbo_frame_tag "round_#{@round.id}_users_list" do %>
+    <%= render UsersList::Component.new(round: @round) %>
+  <% end %>
 
   <%= turbo_frame_tag "round_#{@round.id}_tasks" do %>
     <%= render @round.tasks %>

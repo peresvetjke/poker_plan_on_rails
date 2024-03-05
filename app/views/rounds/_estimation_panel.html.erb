@@ -1,7 +1,0 @@
-<% current_task = round.current_task %>
-<% if current_task.present? %>
-  <% current_estimation = round.current_task.estimations.find_by(user_id: user.id)&.value %>
-  <% Estimation::OPTIONS.each do |value| %>
-    <%= button_to "#{value} (#{value.to_i == current_estimation})", estimate_task_path(current_task), params: { value: value } %>
-  <% end %>
-<% end %>

@@ -63,7 +63,8 @@ class TasksController < ApplicationController
   end
 
   def estimate
-    @current_estimation = Tasks::Estimate.new(user: current_user, task: @task).call(params[:value].to_i)
+    estimation = Tasks::Estimate.new(user: current_user, task: @task).call(params[:value].to_i)
+    @value = estimation&.value
 
     respond_to do |format|
       format.html { redirect_to round_path(@task.round) }
