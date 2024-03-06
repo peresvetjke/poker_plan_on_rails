@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tasks
   class Estimate
     include Turbo::Streams::Broadcasts
@@ -46,11 +48,6 @@ module Tasks
     end
 
     def broadcast_update(round)
-      # broadcast_update_to UsersList::Component.target(round), target: UsersList::Component.target(round) do
-      # broadcast_update_to UsersList::Component.target(round) do
-      # broadcast_update_to UsersList::Component.target(round),
-      #   target: UsersList::Component.target(round),
-      #   UsersList::Component.new(round:)
       broadcast_update_to UsersList::Component.target(round),
         target: UsersList::Component.target(round),
         html: ViewComponentController.render(

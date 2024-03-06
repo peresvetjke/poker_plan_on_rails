@@ -11,7 +11,6 @@ class RoundsController < ApplicationController
   end
 
   def show
-    # @current_estimation = Estimation.where(task_id: @round.current_task&.id, estimations.where
     RoundUser.find_or_create_by(user_id: current_user.id, round_id: @round.id)
   end
 
