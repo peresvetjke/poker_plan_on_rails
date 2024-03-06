@@ -53,7 +53,11 @@ module Tasks
       #   UsersList::Component.new(round:)
       broadcast_update_to UsersList::Component.target(round),
         target: UsersList::Component.target(round),
-        html: ViewComponentController.render(UsersList::Component.new(round:))
+        html: ViewComponentController.render(
+          UsersList::Component.new(
+            UsersListQuery.new(round.id)
+          )
+        )
     end
 
     attr_reader :task, :user

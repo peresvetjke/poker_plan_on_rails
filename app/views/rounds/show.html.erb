@@ -21,7 +21,7 @@
   <% end %>
 
   <%= turbo_frame_tag "round_#{@round.id}_users_list" do %>
-    <%= render UsersList::Component.new(round: @round) %>
+    <%= render UsersList::Component.new(UsersListQuery.new(@round.id)) %>
   <% end %>
 
   <%= turbo_frame_tag "round_#{@round.id}_tasks" do %>
