@@ -10,7 +10,7 @@ class Round < ApplicationRecord
 
   scope :ordered, -> { order(id: :desc) }
 
-  broadcasts_to ->(_round) { 'rounds' }, inserts_by: :prepend
+  broadcasts_to ->(_) { 'rounds' }, inserts_by: :prepend
 
   def self.ongoing_task_of_round
     where(round_id: id, state: 'ongoing')

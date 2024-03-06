@@ -54,7 +54,7 @@ class TasksController < ApplicationController
   end
 
   def start
-    Tasks::Start.new(task: @task, round: @round).call
+    Tasks::Start.new(task: @task).call
 
     respond_to do |format|
       format.html { redirect_to round_path(@task.round) }

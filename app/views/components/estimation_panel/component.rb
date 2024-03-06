@@ -1,8 +1,5 @@
-class EstimationPanel::Component
-  def initialize(round:,
-                 user:,
-                 task: round.current_task,
-                 value: task.present? ? Estimation.find_by(user_id: user.id, task_id: task.id)&.value : nil)
+class EstimationPanel::Component < ViewComponent::Base
+  def initialize(task:, value:)
     @task = task
     @value = value
   end

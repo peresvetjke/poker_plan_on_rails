@@ -1,11 +1,13 @@
-<% query.users.each do |u| %>
-  <% round_user = query.round_users.select { |x| x.user_id == u.id} %>
+<% users.each do |u| %>
+  <% round_user = round_users.select { |x| x.user_id == u.id} %>
 
-  <%= u.username %>
-  <%= query.voted_user_ids.include?(u.id) ? 'true' : 'false' %>
-  <div class="round_user__actions">
-    <%= button_to "Delete",
-                  round_user_path(round_user),
-                  method: :delete %>
-  </div>
+  <%= turbo_frame_tag round_user do %>
+    <%= u.username %>
+    <%= voted_user_ids.include?(u.id) ? 'true' : 'false' %>
+    <div class="round_user__actions">
+      <%= button_to "Delete",
+                    round_user_path(round_user),
+                    method: :delete %>
+    </div>
+  <% end %>
 <% end %>

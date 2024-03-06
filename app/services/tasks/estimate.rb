@@ -48,12 +48,10 @@ module Tasks
     end
 
     def broadcast_update(round)
-      broadcast_update_to UsersList::Component.target(round),
-        target: UsersList::Component.target(round),
+      broadcast_update_later_to "round_#{round.id}",
+        target: 'users_list',
         html: ViewComponentController.render(
-          UsersList::Component.new(
-            UsersListQuery.new(round.id)
-          )
+          UsersList::Component.new(users: round.users, round_users: round.round_users, voted_user_ids: round.current_task.estimations.pluck(:user_id))
         )
     end
 

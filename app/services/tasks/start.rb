@@ -1,23 +1,38 @@
 module Tasks
   class Start
     include Turbo::Streams::Broadcasts
+    include Turbo::Streams::StreamName
 
-    def initialize(task:, round:)
+    def initialize(task:)
       @task = task
-      @round = round || Round.find(task.round_id)
+      @round = Round.find(task.round_id)
     end
 
     def call
       return if task.finished?
-      return task.idle! if task.ongoing?
 
-      ActiveRecord::Base.transaction do
-        Task.ongoing.where(round_id: task.round_id).each(&:idle!)
-        task.ongoing!
+      if task.ongoing?
+        task.idle!
+
+        round.users.each do |u|
+          broadcast_update_later_to "round_#{round.id}_user_#{u.id}",
+            target: 'estimation_panel',
+            html: ''
+        end
+      else
+        ActiveRecord::Base.transaction do
+          Task.ongoing.where(round_id: task.round_id).each(&:idle!)
+          task.ongoing!
+        end
+
+        round.users.each do |u|
+          broadcast_update_later_to "round_#{round.id}_user_#{u.id}",
+            target: 'estimation_panel',
+            html: ViewComponentController.render(
+                    EstimationPanel::Component.new(task: task, value: Estimation.find_by(task_id: task.id, user_id: u.id)&.value)
+                  )
+        end
       end
-      # round.users.each do |user|
-      #   broadcast_replace_to "round_#{round.id}_user_#{user.id}_estimation_panel"
-      # end
     end
 
     private

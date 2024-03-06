@@ -8,6 +8,6 @@ class Task < ApplicationRecord
 
   validates :title, presence: true
 
-  broadcasts_to ->(task) { [task.round, :tasks] }, inserts_by: :prepend,
-                                                   target: ->(task) { "round_#{task.round_id}_tasks" }
+  broadcasts_to ->(task) { "round_#{task.round_id}" }, target: 'tasks',
+                                                       inserts_by: :prepend
 end

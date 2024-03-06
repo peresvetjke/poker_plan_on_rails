@@ -3,22 +3,23 @@ class UsersList::Component < ViewComponent::Base
     "round_#{round.id}_users_list"
   end
 
-  def initialize(query)
-    @query = query
+  def initialize(users:, round_users:, voted_user_ids:)
+    @users = users
+    @round_users = round_users
+    @voted_user_ids = voted_user_ids
     super
   end
 
   def render_in(view_context)
     view_context.render(
       partial: 'components/users_list/component',
-      # locals: { round_users:, voted_user_ids: }
-      locals: { query: }
+      locals: { users:, round_users:, voted_user_ids: }
     )
   end
 
   private
 
-  attr_reader :query
+  attr_reader :users, :round_users, :voted_user_ids
 end
 
 
