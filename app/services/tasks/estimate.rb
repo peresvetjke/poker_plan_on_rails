@@ -10,6 +10,7 @@ module Tasks
     def initialize(task:, user:)
       @task = task
       @user = user
+      @round_user = RoundUser.where(round_id: task.round_id, user_id: user.id).preload(:user).first
     end
 
     # @param value [Integer]
@@ -18,43 +19,36 @@ module Tasks
       return unless task.ongoing?
 
       estimation = task.estimations.find_or_initialize_by(user_id: user.id)
-      result = proceed_estimation(estimation, value)
-      broadcast_update(task.round)
+      result = if estimation.value == value
+        estimation.destroy!
+        user_voted = false
+        nil
+      else
+        ActiveRecord::Base.transaction do
+          estimation.update!(value:)
+          task.finished! if FinishChecker.new.call(task)
+        end
+        user_voted = true
+        estimation
+      end
+      broadcast_update(user_voted)
       result
     end
 
     private
 
-    # @param estimation [Estimation]
-    # @param value [Integer]
-    # @return [Estimation]
-    def proceed_estimation(estimation, value)
-      if estimation.value == value
-        estimation.destroy!
-        nil
-      else
-        ActiveRecord::Base.transaction do
-          estimation.update!(value:)
-          task.finished! if task_estimated?(task)
-        end
-        estimation
-      end
+    def destroy_estimation
+
     end
 
-    # @param task [Task]
-    # @return [Boolean]
-    def task_estimated?(task)
-      task.estimations.pluck(:user_id).sort == task.round.round_users.pluck(:user_id).sort
-    end
-
-    def broadcast_update(round)
-      broadcast_update_later_to "round_#{round.id}",
-        target: 'users_list',
+    def broadcast_update(user_voted)
+      broadcast_update_later_to "round_#{round_user.round_id}",
+        target: "round_user_#{round_user.id}",
         html: ViewComponentController.render(
-          UsersList::Component.new(users: round.users, round_users: round.round_users, voted_user_ids: round.current_task.estimations.pluck(:user_id))
+          RoundUser::Component.new(round_user:, user_voted:)
         )
     end
 
-    attr_reader :task, :user
+    attr_reader :task, :user, :round_user
   end
 end

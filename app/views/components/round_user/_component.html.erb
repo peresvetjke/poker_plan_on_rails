@@ -1,0 +1,8 @@
+<%= round_user.user.username %>
+<%= user_voted ? 'true' : 'false' %>
+
+<div class="round_user__actions">
+  <%= button_to "Delete",
+                round_user_path(round_user),
+                method: :delete %>
+</div>

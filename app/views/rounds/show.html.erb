@@ -21,7 +21,7 @@
   <% end %>
 
   <%= turbo_frame_tag "users_list" do %>
-    <%= render UsersList::Component.new(users: @round.users, round_users: @round.round_users, voted_user_ids: current_task&.estimations.to_a.pluck(:user_id)) %>
+    <%= render UsersList::Component.new(round_users: @round.round_users.preload(:user), voted_user_ids: current_task&.estimations.to_a.pluck(:user_id)) %>
   <% end %>
 
   <%= turbo_frame_tag "tasks" do %>

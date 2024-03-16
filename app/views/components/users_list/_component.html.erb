@@ -1,13 +1,5 @@
-<% users.each do |u| %>
-  <% round_user = round_users.select { |x| x.user_id == u.id} %>
-
-  <%= turbo_frame_tag round_user do %>
-    <%= u.username %>
-    <%= voted_user_ids.include?(u.id) ? 'true' : 'false' %>
-    <div class="round_user__actions">
-      <%= button_to "Delete",
-                    round_user_path(round_user),
-                    method: :delete %>
-    </div>
+<% round_users.each do |round_user| %>
+  <%= turbo_frame_tag dom_id(round_user) do %>
+    <%= render RoundUser::Component.new(round_user: round_user, user_voted: voted_user_ids.include?(round_user.user_id)) %>
   <% end %>
 <% end %>
