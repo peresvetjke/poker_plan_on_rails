@@ -29,7 +29,7 @@ module Tasks
     # @return [NilClass]
     def destroy_estimation(estimation)
       estimation.destroy!
-      users_list.estimation_removed(round_user)
+      users_list(round_user).estimation_removed
       nil
     end
 
@@ -39,15 +39,15 @@ module Tasks
     def update_estimation(estimation, value)
       return unless ActiveRecord::Base.transaction do
         estimation.update!(value:)
-        task.finished! if task_finished?(task)
+        task_finished?(task) ? task.finished! : true
       end
 
-      users_list.estimation_added(round_user)
+      users_list(round_user).estimation_added
       estimation
     end
 
-    def users_list
-      Views::UsersList.new
+    def users_list(round_user)
+      Views::UsersList.new(round_user)
     end
 
     # @param task [Task]
