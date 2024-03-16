@@ -2,9 +2,6 @@
 
 module Tasks
   class Estimate
-    include Turbo::Streams::Broadcasts
-    include Turbo::Streams::StreamName
-
     # @param task [Task]
     # @param user [User]
     def initialize(task:, user:)
@@ -14,41 +11,55 @@ module Tasks
     end
 
     # @param value [Integer]
-    # @return [void]
+    # @return [Estimation, NilClass]
     def call(value)
-      return unless task.ongoing?
+      return if !task.ongoing? || round_user.blank?
 
       estimation = task.estimations.find_or_initialize_by(user_id: user.id)
-      result = if estimation.value == value
-        estimation.destroy!
-        user_voted = false
-        nil
-      else
-        ActiveRecord::Base.transaction do
-          estimation.update!(value:)
-          task.finished! if FinishChecker.new.call(task)
-        end
-        user_voted = true
-        estimation
-      end
-      broadcast_update(user_voted)
-      result
+      return destroy_estimation(estimation) if estimation.value == value
+
+      update_estimation(estimation, value)
     end
 
     private
 
-    def destroy_estimation
-
-    end
-
-    def broadcast_update(user_voted)
-      broadcast_update_later_to "round_#{round_user.round_id}",
-        target: "round_user_#{round_user.id}",
-        html: ViewComponentController.render(
-          RoundUser::Component.new(round_user:, user_voted:)
-        )
-    end
-
     attr_reader :task, :user, :round_user
+
+    # @param estimation [Estimation]
+    # @return [NilClass]
+    def destroy_estimation(estimation)
+      estimation.destroy!
+      users_list.estimation_removed(round_user)
+      nil
+    end
+
+    # @param estimation [Estimation]
+    # @param value [Integer]
+    # @return [Estimation]
+    def update_estimation(estimation, value)
+      return unless ActiveRecord::Base.transaction do
+        estimation.update!(value:)
+        task.finished! if task_finished?(task)
+      end
+
+      users_list.estimation_added(round_user)
+      estimation
+    end
+
+    def users_list
+      Views::UsersList.new
+    end
+
+    # @param task [Task]
+    # @return [Boolean]
+    def task_finished?(task)
+      task.estimations.pluck(:user_id).sort == task.round.round_users.pluck(:user_id).sort
+    end
+
+    # @param user_voted [Boolean]
+    # @return [void]
+    def broadcast_update(user_voted)
+      Broadcasts::RoundUser.new(round_user:, user_voted:).call
+    end
   end
 end
