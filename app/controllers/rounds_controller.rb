@@ -10,8 +10,6 @@ class RoundsController < ApplicationController
 
   def show
     RoundUser.find_or_create_by(user_id: current_user.id, round_id: @round.id)
-    # Rounds::Round.new(round: @round).user_joined(current_user)
-    # RoundUser.find_or_create_by(user_id: current_user.id, round_id: @round.id)
   end
 
   def new

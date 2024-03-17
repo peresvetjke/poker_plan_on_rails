@@ -48,7 +48,6 @@ class TasksController < ApplicationController
 
     message = 'Task was successfully destroyed.'
     respond_to do |format|
-      # format.html { redirect_to round_path(@task.round), notice: message }
       format.html { redirect_to round_path(@task.round_id), notice: message }
       format.turbo_stream { flash.now[:notice] = message }
     end
@@ -81,7 +80,6 @@ class TasksController < ApplicationController
 
   def set_task
     @task = Task.find(params[:id])
-    # @round = @task.round
   end
 
   def task_params

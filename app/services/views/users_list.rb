@@ -21,18 +21,12 @@ module Views
       component = component_klass.new(round_user:, user:, user_voted: true)
 
       broadcast_update_later_to streammable, target:, html: render(component)
-      # broadcast_update(
-      #   component: component_klass.new(round_user:, user_voted: true)
-      # )
     end
 
     def estimation_removed
       component = component_klass.new(round_user:, user: round_user.user, user_voted: false)
 
       broadcast_update_later_to streammable, target:, html: render(component)
-      # broadcast_update(
-      #   component: component_klass.new(round_user:, user_voted: false)
-      # )
     end
 
     private

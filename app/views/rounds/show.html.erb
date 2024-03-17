@@ -17,11 +17,15 @@
   <% current_task = @round.current_task %>
 
   <%= turbo_frame_tag "estimation_panel" do %>
-    <%= render EstimationPanel::Component.new(task_id: current_task&.id, value: Estimation.find_by(user_id: current_user.id, task_id: current_task&.id)&.value) %>
+    <% task_id = current_task&.id %>
+    <% value = Estimation.find_by(user_id: current_user.id, task_id: current_task&.id)&.value %>
+    <%= render EstimationPanel::Component.new(task_id:, value:) %>
   <% end %>
 
   <%= turbo_frame_tag "users_list" do %>
-    <%= render UsersList::Component.new(round_users: @round.round_users.preload(:user), voted_user_ids: current_task&.estimations.to_a.pluck(:user_id)) %>
+    <% round_users = @round.round_users.preload(:user) %>
+    <% voted_user_ids = current_task&.estimations.to_a.pluck(:user_id) %>
+    <%= render UsersList::Component.new(round_users:, voted_user_ids:) %>
   <% end %>
 
   <%= turbo_frame_tag "tasks" do %>

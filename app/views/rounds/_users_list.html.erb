@@ -1,7 +1,3 @@
-<%# @param round_users AR::Relation[RoundUser]
-    @param users AR::Relation[User]
-    @param estimations_status [Hash] e.g. %{1 => true, 2 => false} , where 1,2 are user ids %>
-
 <% users.each do |user| %>
   <%= user.username %>
   <%= estimations_status[user.id] ? 'true' : 'false' %>
