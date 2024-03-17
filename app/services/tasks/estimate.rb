@@ -29,7 +29,7 @@ module Tasks
     # @return [NilClass]
     def destroy_estimation(estimation)
       estimation.destroy!
-      users_list(round_user).estimation_removed
+      users_list.estimation_removed(round_user:)
       nil
     end
 
@@ -42,24 +42,18 @@ module Tasks
         task_finished?(task) ? task.finished! : true
       end
 
-      users_list(round_user).estimation_added
+      users_list.estimation_added(round_user:)
       estimation
     end
 
-    def users_list(round_user)
-      Views::UsersList.new(round_user:, user: round_user.user)
+    def users_list
+      @users_list ||= Broadcasts::UsersList.new
     end
 
     # @param task [Task]
     # @return [Boolean]
     def task_finished?(task)
       task.estimations.pluck(:user_id).sort == task.round.round_users.pluck(:user_id).sort
-    end
-
-    # @param user_voted [Boolean]
-    # @return [void]
-    def broadcast_update(user_voted)
-      Broadcasts::RoundUser.new(round_user:, user_voted:).call
     end
   end
 end

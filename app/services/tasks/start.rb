@@ -31,22 +31,23 @@ module Tasks
         task.ongoing!
       end
 
-      show_estimation_panels
+      initiate_estimation_panels
     end
 
-    def show_estimation_panels
-      for_each_estimation_panel(&:show)
+    def initiate_estimation_panels
+      round.users.each do |user|
+        estimation_panel.update(round_id: round.id, task_id: task.id, user_id: user.id, value: nil)
+      end
     end
 
     def hide_estimation_panels
-      for_each_estimation_panel(&:hide)
+      round.users.each do |user|
+        estimation_panel.hide(round_id: round.id, user_id: user.id)
+      end
     end
 
-    def for_each_estimation_panel
-      round.users.each do |user|
-        estimation_panel = Views::UserEstimationPanel.new(round_id: round.id, task_id: task.id, user_id: user.id)
-        yield(estimation_panel)
-      end
+    def estimation_panel
+      @estimation_panel ||= Broadcasts::UserEstimationPanel.new
     end
   end
 end

@@ -6,9 +6,9 @@ class RoundUser < ApplicationRecord
 
   after_create_commit -> {
     user_voted = Estimation.exists?(user_id:, task: round.current_task)
-    Views::UsersList.new(round_user: self, user:).user_joined(user_voted)
+    Broadcasts::UsersList.new.user_joined(round_user: self, user_voted:)
   }
   after_destroy_commit -> {
-    Views::UsersList.new(round_user: self, user:).user_left
+    Broadcasts::UsersList.new.user_left(round_user: self)
   }
 end

@@ -23,8 +23,8 @@ RSpec.describe Tasks::Estimate do
 
     describe 'broadcast view update' do
       it 'broadcasts update' do
-        users_list = instance_double(Views::UsersList)
-        allow(Views::UsersList).to receive(:new).and_return(users_list)
+        users_list = instance_double(Broadcasts::UsersList)
+        allow(Broadcasts::UsersList).to receive(:new).and_return(users_list)
         expect(users_list).to receive(:estimation_added)
         service_call
       end
@@ -33,8 +33,8 @@ RSpec.describe Tasks::Estimate do
         before { create(:estimation, task:, user:, value:) }
 
         it 'broadcasts update' do
-          users_list = instance_double(Views::UsersList)
-          allow(Views::UsersList).to receive(:new).and_return(users_list)
+          users_list = instance_double(Broadcasts::UsersList)
+          allow(Broadcasts::UsersList).to receive(:new).and_return(users_list)
           expect(users_list).to receive(:estimation_removed)
           service_call
         end

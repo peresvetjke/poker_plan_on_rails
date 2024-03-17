@@ -18,12 +18,10 @@ RSpec.describe Tasks::Start do
       let(:user2) { round_users.last.user }
 
       it 'initiates estimation panels for all users', aggregate_failures: true do
-        estimation_panel1 = instance_double(Views::UserEstimationPanel)
-        estimation_panel2 = instance_double(Views::UserEstimationPanel)
-        allow(Views::UserEstimationPanel).to receive(:new).with(round_id: task.round_id, task_id: task.id, user_id: user1.id).and_return(estimation_panel1)
-        allow(Views::UserEstimationPanel).to receive(:new).with(round_id: task.round_id, task_id: task.id, user_id: user2.id).and_return(estimation_panel2)
-        expect(estimation_panel1).to receive(:show)
-        expect(estimation_panel2).to receive(:show)
+        estimation_panel = instance_double(Broadcasts::UserEstimationPanel)
+        allow(Broadcasts::UserEstimationPanel).to receive(:new).and_return(estimation_panel)
+        expect(estimation_panel).to receive(:update).with(round_id: task.round_id, task_id: task.id, user_id: user1.id, value: nil)
+        expect(estimation_panel).to receive(:update).with(round_id: task.round_id, task_id: task.id, user_id: user2.id, value: nil)
         service_call
       end
     end
@@ -41,13 +39,11 @@ RSpec.describe Tasks::Start do
       let(:user1) { round_users.first.user }
       let(:user2) { round_users.last.user }
 
-      it 'initiates estimation panels for all users', aggregate_failures: true do
-        estimation_panel1 = instance_double(Views::UserEstimationPanel)
-        estimation_panel2 = instance_double(Views::UserEstimationPanel)
-        allow(Views::UserEstimationPanel).to receive(:new).with(round_id: task.round_id, task_id: task.id, user_id: user1.id).and_return(estimation_panel1)
-        allow(Views::UserEstimationPanel).to receive(:new).with(round_id: task.round_id, task_id: task.id, user_id: user2.id).and_return(estimation_panel2)
-        expect(estimation_panel1).to receive(:hide)
-        expect(estimation_panel2).to receive(:hide)
+      it 'hides estimation panels for all users', aggregate_failures: true do
+        estimation_panel = instance_double(Broadcasts::UserEstimationPanel)
+        allow(Broadcasts::UserEstimationPanel).to receive(:new).and_return(estimation_panel)
+        expect(estimation_panel).to receive(:hide).with(round_id: task.round_id, user_id: user1.id)
+        expect(estimation_panel).to receive(:hide).with(round_id: task.round_id, user_id: user2.id)
         service_call
       end
     end
