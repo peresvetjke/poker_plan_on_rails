@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_091814) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["task_id"], name: "index_estimations_on_task_id"
+    t.index ["user_id", "task_id"], name: "index_estimations_on_user_id_and_task_id", unique: true
     t.index ["user_id"], name: "index_estimations_on_user_id"
   end
 
@@ -29,6 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_091814) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["round_id", "user_id"], name: "index_round_users_on_round_id_and_user_id", unique: true
     t.index ["round_id"], name: "index_round_users_on_round_id"
     t.index ["user_id"], name: "index_round_users_on_user_id"
   end

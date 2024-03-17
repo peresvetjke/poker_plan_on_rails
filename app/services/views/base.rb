@@ -18,5 +18,9 @@ module Views
     def target
       raise NotImplementedError
     end
+
+    def render(component)
+      ViewComponentController.render(component)
+    end
   end
 end

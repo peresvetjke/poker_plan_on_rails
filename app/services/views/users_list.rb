@@ -2,25 +2,42 @@
 
 module Views
   class UsersList < Base
-    def initialize(round_user)
+    def initialize(round_user:, user:)
       @round_user = round_user
+      @user = user
+    end
+
+    def user_joined(user_voted)
+      component = component_klass.new(round_user:, user:, user_voted:)
+
+      broadcast_prepend_later_to streammable, target: "users_list", html: render(component)
+    end
+
+    def user_left
+      broadcast_remove_to "round_#{round_user.round_id}", target: "round_user_#{round_user.id}"
     end
 
     def estimation_added
-      broadcast_update(
-        component: component_klass.new(round_user:, user_voted: true)
-      )
+      component = component_klass.new(round_user:, user:, user_voted: true)
+
+      broadcast_update_later_to streammable, target:, html: render(component)
+      # broadcast_update(
+      #   component: component_klass.new(round_user:, user_voted: true)
+      # )
     end
 
     def estimation_removed
-      broadcast_update(
-        component: component_klass.new(round_user:, user_voted: false)
-      )
+      component = component_klass.new(round_user:, user: round_user.user, user_voted: false)
+
+      broadcast_update_later_to streammable, target:, html: render(component)
+      # broadcast_update(
+      #   component: component_klass.new(round_user:, user_voted: false)
+      # )
     end
 
     private
 
-    attr_reader :round_user
+    attr_reader :round_user, :user
 
     def streammable
       "round_#{round_user.round_id}"

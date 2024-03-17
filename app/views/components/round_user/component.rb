@@ -1,6 +1,7 @@
 class RoundUser::Component < ViewComponent::Base
-  def initialize(round_user:, user_voted:)
+  def initialize(round_user:, user:, user_voted:)
     @round_user = round_user
+    @user = user
     @user_voted = user_voted
     super
   end

@@ -47,7 +47,7 @@ module Tasks
     end
 
     def users_list(round_user)
-      Views::UsersList.new(round_user)
+      Views::UsersList.new(round_user:, user: round_user.user)
     end
 
     # @param task [Task]

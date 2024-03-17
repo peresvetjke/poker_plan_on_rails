@@ -33,7 +33,7 @@ describe 'User can manage rounds list.', js: true do
         using_session 'other_user' do
           sign_in other_user
           visit round_path(round)
-          within("#round_#{round.id}_round_users") { expect(page).to have_content(other_user.username) }
+          within("#users_list") { expect(page).to have_content(other_user.username) }
           sleep 0.5
         end
         using_session 'user' do
@@ -42,7 +42,7 @@ describe 'User can manage rounds list.', js: true do
           within("#round_user_#{round_user.id}") { click_on 'Delete' }
         end
         using_session 'other_user' do
-          within("#round_#{round.id}_round_users") { expect(page).not_to have_content(other_user.username) }
+          within("#users_list") { expect(page).not_to have_content(other_user.username) }
         end
       end
     end

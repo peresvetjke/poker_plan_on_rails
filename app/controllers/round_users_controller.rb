@@ -6,6 +6,7 @@ class RoundUsersController < ApplicationController
 
   def destroy
     @round_user.destroy
+    # Rounds::Round.new(round: @round_user.round).user_left(@round_user.user)
 
     message = 'User was successfully kicked.'
     respond_to do |format|
