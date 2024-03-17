@@ -1,4 +1,4 @@
-class RoundUser::Component < ViewComponent::Base
+class RoundUser::Component < BaseViewComponent
   def initialize(round_user:, user_voted:)
     @round_user = round_user
     @user_voted = user_voted

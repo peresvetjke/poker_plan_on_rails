@@ -1,4 +1,6 @@
-<% round_users.each do |round_user| %>
-  <% user_voted = voted_user_ids.include?(round_user.user_id) %>
-  <%= render RoundUser::Component.new(round_user:, user_voted:) %>
+<%= turbo_frame_tag frame_tag do %>
+  <% round_users.each do |round_user| %>
+    <% user_voted = voted_user_ids.include?(round_user.user_id) %>
+    <%= render RoundUser::Component.new(round_user:, user_voted:) %>
+  <% end %>
 <% end %>
