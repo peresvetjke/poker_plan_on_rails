@@ -5,10 +5,21 @@ module Broadcasts
     include Turbo::Streams::Broadcasts
     include Turbo::Streams::StreamName
 
+    def method_missing(m, *args, &block)
+      helpers = controller.helpers
+      return helpers.public_send(m, *args, &block) if helpers.respond_to?(m)
+
+      super
+    end
+
     private
 
     def render(component)
-      ViewComponentController.render(component)
+      controller.render(component)
+    end
+
+    def controller
+      ViewComponentController
     end
   end
 end

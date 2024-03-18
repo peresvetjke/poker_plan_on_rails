@@ -1,4 +1,4 @@
-<%= turbo_frame_tag dom_id(round_user) do %>
+<%= turbo_frame_tag round_user_frame_tag(round_user.id) do %>
   <%= round_user.user.username %>
   <%= user_voted ? 'true' : 'false' %>
 

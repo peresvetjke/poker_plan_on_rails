@@ -1,9 +1,0 @@
-<% users.each do |user| %>
-  <%= user.username %>
-  <%= estimations_status[user.id] ? 'true' : 'false' %>
-  <div class="round_user__actions">
-    <%= button_to "Delete",
-                  round_user_path(round_users.find_by(user_id: user.id)),
-                  method: :delete %>
-  </div>
-<% end %>
