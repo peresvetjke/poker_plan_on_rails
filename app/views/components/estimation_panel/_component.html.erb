@@ -1,7 +1,0 @@
-<%= turbo_frame_tag estimation_panel_frame_tag do %>
-  <% if task_id.present? %>
-    <% Estimation::OPTIONS.each do |v| %>
-      <%= button_to "#{v} (#{value == v})", estimate_task_path(task_id), params: { value: v } %>
-    <% end %>
-  <% end %>
-<% end %>

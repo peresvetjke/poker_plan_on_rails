@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tasks
   class Start
     def initialize(task:)
@@ -36,18 +38,18 @@ module Tasks
 
     def initiate_estimation_panels
       round.users.each do |user|
-        estimation_panel.update(round_id: round.id, task_id: task.id, user_id: user.id, value: nil)
+        estimation_panel(round:, user:).update(current_task: task, current_value: nil)
       end
     end
 
     def hide_estimation_panels
       round.users.each do |user|
-        estimation_panel.hide(round_id: round.id, user_id: user.id)
+        estimation_panel(round:, user:).hide
       end
     end
 
-    def estimation_panel
-      @estimation_panel ||= Broadcasts::UserEstimationPanel.new
+    def estimation_panel(round:, user:)
+      Broadcasts::EstimationPanel.new(round:, user:)
     end
   end
 end

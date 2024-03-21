@@ -23,20 +23,26 @@ RSpec.describe Tasks::Estimate do
 
     describe 'broadcast view update' do
       it 'broadcasts update' do
-        users_list = instance_double(Broadcasts::UsersList)
-        allow(Broadcasts::UsersList).to receive(:new).and_return(users_list)
-        expect(users_list).to receive(:estimation_added)
+        users_list = instance_double(Broadcasts::RoundUsersList)
+        allow(Broadcasts::RoundUsersList).to receive(:new).and_return(users_list)
+        allow(users_list).to receive(:estimation_added)
+
         service_call
+
+        expect(users_list).to have_received(:estimation_added).with(round_user:)
       end
 
       context 'when destroying estimation' do
         before { create(:estimation, task:, user:, value:) }
 
         it 'broadcasts update' do
-          users_list = instance_double(Broadcasts::UsersList)
-          allow(Broadcasts::UsersList).to receive(:new).and_return(users_list)
-          expect(users_list).to receive(:estimation_removed)
+          users_list = instance_double(Broadcasts::RoundUsersList)
+          allow(Broadcasts::RoundUsersList).to receive(:new).and_return(users_list)
+          allow(users_list).to receive(:estimation_removed)
+
           service_call
+
+          expect(users_list).to have_received(:estimation_removed)
         end
       end
     end

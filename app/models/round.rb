@@ -6,7 +6,10 @@ class Round < ApplicationRecord
   has_many :tasks, dependent: :destroy
   has_many :round_users, dependent: :destroy
   has_many :users, through: :round_users
-  has_one :current_task, -> (round) { where(round_id: round.id, state: 'ongoing') }, class_name: 'Task'
+
+  has_one :current_task, ->(round) { where(round_id: round.id, state: 'ongoing') }, class_name: 'Task',
+                                                                                    dependent: :destroy,
+                                                                                    inverse_of: :round
 
   scope :ordered, -> { order(id: :desc) }
 

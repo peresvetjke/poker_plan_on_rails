@@ -4,6 +4,7 @@ RSpec.describe Tasks::Start do
   subject(:service_call) { described_class.new(task:).call }
 
   let(:task) { create(:task, state:) }
+  let(:round) { task.round}
 
   context 'when idle' do
     let(:state) { :idle }
@@ -13,16 +14,16 @@ RSpec.describe Tasks::Start do
     end
 
     describe 'broadcasts update' do
-      let(:round_users) { create_list(:round_user, 2, round: task.round) }
-      let(:user1) { round_users.first.user }
-      let(:user2) { round_users.last.user }
+      let(:user) { create(:round_user, round: task.round).user }
 
       it 'initiates estimation panels for all users', aggregate_failures: true do
-        estimation_panel = instance_double(Broadcasts::UserEstimationPanel)
-        allow(Broadcasts::UserEstimationPanel).to receive(:new).and_return(estimation_panel)
-        expect(estimation_panel).to receive(:update).with(round_id: task.round_id, task_id: task.id, user_id: user1.id, value: nil)
-        expect(estimation_panel).to receive(:update).with(round_id: task.round_id, task_id: task.id, user_id: user2.id, value: nil)
+        estimation_panel = instance_double(Broadcasts::EstimationPanel)
+        allow(Broadcasts::EstimationPanel).to receive(:new).with(round:, user:).and_return(estimation_panel)
+        allow(estimation_panel).to receive(:update)
+
         service_call
+
+        expect(estimation_panel).to have_received(:update).with(current_task: task, current_value: nil)
       end
     end
   end
@@ -35,16 +36,16 @@ RSpec.describe Tasks::Start do
     end
 
     describe 'broadcasts update' do
-      let(:round_users) { create_list(:round_user, 2, round: task.round) }
-      let(:user1) { round_users.first.user }
-      let(:user2) { round_users.last.user }
+      let(:user) { create(:round_user, round:).user }
 
-      it 'hides estimation panels for all users', aggregate_failures: true do
-        estimation_panel = instance_double(Broadcasts::UserEstimationPanel)
-        allow(Broadcasts::UserEstimationPanel).to receive(:new).and_return(estimation_panel)
-        expect(estimation_panel).to receive(:hide).with(round_id: task.round_id, user_id: user1.id)
-        expect(estimation_panel).to receive(:hide).with(round_id: task.round_id, user_id: user2.id)
+      it 'hides estimation panels', aggregate_failures: true do
+        estimation_panel = instance_double(Broadcasts::EstimationPanel)
+        allow(Broadcasts::EstimationPanel).to receive(:new).with(round:, user:).and_return(estimation_panel)
+        allow(estimation_panel).to receive(:hide)
+
         service_call
+
+        expect(estimation_panel).to have_received(:hide)
       end
     end
 

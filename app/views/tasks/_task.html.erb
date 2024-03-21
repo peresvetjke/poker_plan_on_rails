@@ -1,11 +1,17 @@
-<%= turbo_frame_tag task do %>
-  <div class="task">
-    <%= task.title %>
-    <%= task.state %>
-    <div class="round__actions">
-      <%= button_to "Start", start_task_path(task) %>
-      <%= link_to "Edit", edit_task_path(task) %>
-      <%= button_to "Delete", task_path(task), method: :delete %>
+<%= turbo_frame_tag task, class: "task" do %>
+  <%# <div class="task"> %>
+    <div class='title'>
+      <%= task.title %>
     </div>
-  </div>
+
+    <div class='state'>
+      <%= task.state %>
+    </div>
+
+    <div class="round__actions">
+      <%= button_to "Start", start_task_path(task), class: 'start' %>
+      <%= link_to "Edit", edit_task_path(task), class: 'edit' %>
+      <%= button_to "Delete", task_path(task), method: :delete, class: 'delete' %>
+    </div>
+  <%# </div> %>
 <% end %>

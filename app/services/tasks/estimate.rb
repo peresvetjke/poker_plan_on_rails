@@ -29,7 +29,7 @@ module Tasks
     # @return [NilClass]
     def destroy_estimation(estimation)
       estimation.destroy!
-      users_list.estimation_removed(round_user:)
+      round_users_list.estimation_removed(round_user:)
       nil
     end
 
@@ -42,12 +42,12 @@ module Tasks
         task_finished?(task) ? task.finished! : true
       end
 
-      users_list.estimation_added(round_user:)
+      round_users_list.estimation_added(round_user:)
       estimation
     end
 
-    def users_list
-      @users_list ||= Broadcasts::UsersList.new
+    def round_users_list
+      @round_users_list ||= Broadcasts::RoundUsersList.new
     end
 
     # @param task [Task]

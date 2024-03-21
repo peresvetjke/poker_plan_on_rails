@@ -5,12 +5,7 @@ module Broadcasts
     include Turbo::Streams::Broadcasts
     include Turbo::Streams::StreamName
 
-    def method_missing(m, *args, &block)
-      helpers = controller.helpers
-      return helpers.public_send(m, *args, &block) if helpers.respond_to?(m)
-
-      super
-    end
+    def initialize(**options); end
 
     private
 
