@@ -20,7 +20,7 @@ describe 'User can manage tasks list.', js: true do
       expect(page).to have_content(task_title)
     end
 
-    it 'streams new task to other users' do # rubocop:disable RSpec/ExampleLength
+    it 'streams new task to other users' do
       sign_in other_user
       visit round_path(round)
       sleep 0.5
@@ -47,7 +47,7 @@ describe 'User can manage tasks list.', js: true do
       expect(page).to have_content(task_title)
     end
 
-    it 'streams updates to other users' do # rubocop:disable RSpec/ExampleLength
+    it 'streams updates to other users' do
       sign_in other_user
       visit round_path(round)
       sleep 0.5
@@ -75,8 +75,7 @@ describe 'User can manage tasks list.', js: true do
       expect(page).to have_selector('.task', count: 1)
     end
 
-    it 'streams updates to other users', aggregate_failures: true do # rubocop:disable RSpec/ExampleLength
-
+    it 'streams updates to other users', aggregate_failures: true do
       sign_in other_user
       visit round_path(round)
       expect(page).to have_selector('.task', count: 2)

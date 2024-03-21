@@ -3,10 +3,10 @@
 RSpec.describe Tasks::Estimate do
   subject(:service_call) { described_class.new(task:, user:).call(value) }
 
-  let(:task) { create(:task, state: state) }
+  let(:task) { create(:task, state:) }
   let(:user) { create(:user) }
   let(:value) { 1 }
-  let!(:round_user) { create(:round_user, user: user, round: task.round) }
+  let!(:round_user) { create(:round_user, user:, round: task.round) }
 
   context 'when task is ongoing' do
     let(:state) { :ongoing }
@@ -65,7 +65,7 @@ RSpec.describe Tasks::Estimate do
 
     context 'when estimation already exists' do
       context 'with the same value' do
-        before { create(:estimation, task:, user:, value: value) }
+        before { create(:estimation, task:, user:, value:) }
 
         it 'destroys estimation', aggregate_failures: true do
           expect { service_call }.to change(Estimation, :count).from(1).to(0)

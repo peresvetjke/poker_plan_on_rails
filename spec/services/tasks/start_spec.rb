@@ -4,7 +4,7 @@ RSpec.describe Tasks::Start do
   subject(:service_call) { described_class.new(task:).call }
 
   let(:task) { create(:task, state:) }
-  let(:round) { task.round}
+  let(:round) { task.round }
 
   context 'when idle' do
     let(:state) { :idle }
@@ -67,7 +67,7 @@ RSpec.describe Tasks::Start do
     let(:state) { :finished }
 
     it 'does not change task state' do
-      expect { service_call }.not_to change { task.reload.state }
+      expect { service_call }.not_to(change { task.reload.state })
     end
   end
 end

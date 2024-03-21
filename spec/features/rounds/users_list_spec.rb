@@ -30,7 +30,7 @@ describe 'User can manage users list.', js: true do
       it 'streams round users', aggregate_failures: true do
         sign_in other_user
         visit round_path(round)
-        within("#users_list") { expect(page).to have_content(other_user.username) }
+        within('#users_list') { expect(page).to have_content(other_user.username) }
         sleep 0.5
 
         using_session 'user' do
@@ -39,7 +39,7 @@ describe 'User can manage users list.', js: true do
           within("#round_user_#{round_user.id}") { click_on 'Delete' }
         end
 
-        within("#users_list") { expect(page).not_to have_content(other_user.username) }
+        within('#users_list') { expect(page).not_to have_content(other_user.username) }
       end
     end
   end

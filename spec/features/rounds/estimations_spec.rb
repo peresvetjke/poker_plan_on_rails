@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'User can estimate tasks.', js: true do
   let!(:round) { create(:round) }
   let!(:user) { create(:user) }
-  let!(:current_task) { create(:task, round: round, state: state) }
+  let!(:current_task) { create(:task, round:, state:) }
   let(:state) { 'idle' }
 
   before do
