@@ -45,12 +45,11 @@ describe 'User can manage rounds list.', js: true do
       expect(page).to have_content 'My first round'
     end
 
-    it 'streams new round to other users' do # rubocop:disable RSpec/ExampleLength
-      using_session 'other_user' do
-        sign_in other_user
-        visit rounds_path
-        sleep 0.5
-      end
+    it 'streams new round to other users' do
+      sign_in other_user
+      visit rounds_path
+      sleep 0.5
+
       using_session 'user' do
         sign_in user
         visit rounds_path
@@ -58,9 +57,8 @@ describe 'User can manage rounds list.', js: true do
         fill_in 'round_title', with: 'My first round'
         click_on 'Save'
       end
-      using_session 'other_user' do
-        expect(page).to have_content 'My first round'
-      end
+
+      expect(page).to have_content 'My first round'
     end
   end
 
@@ -74,12 +72,11 @@ describe 'User can manage rounds list.', js: true do
       expect(page).to have_content 'Updated round'
     end
 
-    it 'streams updates to other users' do # rubocop:disable RSpec/ExampleLength
-      using_session 'other_user' do
-        sign_in other_user
-        visit rounds_path
-        sleep 0.5
-      end
+    it 'streams updates to other users' do
+      sign_in other_user
+      visit rounds_path
+      sleep 0.5
+
       using_session 'user' do
         sign_in user
         visit rounds_path
@@ -87,9 +84,8 @@ describe 'User can manage rounds list.', js: true do
         fill_in 'round_title', with: 'Updated round'
         click_on 'Save'
       end
-      using_session 'other_user' do
-        expect(page).to have_content 'Updated round'
-      end
+
+      expect(page).to have_content 'Updated round'
     end
   end
 
@@ -101,20 +97,18 @@ describe 'User can manage rounds list.', js: true do
       expect(page).not_to have_content(round.title)
     end
 
-    it 'streams updates to other users' do # rubocop:disable RSpec/ExampleLength
-      using_session 'other_user' do
-        sign_in other_user
-        visit rounds_path
-        sleep 0.5
-      end
+    it 'streams updates to other users' do
+      sign_in other_user
+      visit rounds_path
+      sleep 0.5
+
       using_session 'user' do
         sign_in user
         visit rounds_path
         click_on 'Delete', match: :first
       end
-      using_session 'other_user' do
-        expect(page).not_to have_content(round.title)
-      end
+
+      expect(page).not_to have_content(round.title)
     end
   end
 end

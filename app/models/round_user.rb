@@ -4,10 +4,12 @@ class RoundUser < ApplicationRecord
   belongs_to :round
   belongs_to :user
 
-  after_create_commit -> { broadcast_prepend_to self.class.target(self), target: self.class.target(self) }
-  after_destroy_commit -> { broadcast_remove_to self.class.target(self) }
+  delegate :username, to: :user
 
-  def self.target(round_user)
-    "round_#{round_user.round_id}_round_users"
+  after_create_commit -> { Broadcasts::RoundUsersList.new.user_joined(round_user: self, user_voted: user_voted?) }
+  after_destroy_commit -> { Broadcasts::RoundUsersList.new.user_left(round_user: self) }
+
+  def user_voted?
+    Estimation.exists?(user_id:, task: round.current_task)
   end
 end

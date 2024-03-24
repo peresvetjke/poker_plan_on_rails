@@ -1,0 +1,3 @@
+<% Estimation::OPTIONS.each do |v| %>
+  <%= button_to "#{v} (#{@current_value == v})", estimate_task_path(@current_task), params: { value: @current_value } %>
+<% end %>

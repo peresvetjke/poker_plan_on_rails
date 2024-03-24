@@ -1,5 +1,5 @@
-<%= turbo_stream_from "round_#{@round.id}_round_users" %>
-<%= turbo_stream_from "#{@round.to_gid_param}:tasks" %>
+<%= turbo_stream_from dom_id(@round) %>
+<%= turbo_stream_from "round_#{@round.id}_user_#{current_user.id}" %>
 
 <%= link_to sanitize("&larr; Back to rounds"), rounds_path %>
 <div>
@@ -14,11 +14,23 @@
 
   <%= turbo_frame_tag Task.new %>
 
-  <%= turbo_frame_tag "round_#{@round.id}_round_users" do %>
-    <%= render @round.round_users %>
+  <% current_task = @round.current_task %>
+
+  <%= turbo_frame_tag 'estimation_panel' do %>
+    <% current_value = Estimation.find_by(user_id: current_user.id, task_id: current_task&.id)&.value %>
+    <%= render(EstimationPanelComponent.new(current_task:, current_value:)) %>
   <% end %>
 
-  <%= turbo_frame_tag "round_#{@round.id}_tasks" do %>
+  <%= turbo_frame_tag 'users_list' do %>
+    <% round_users = @round.round_users.preload(:user) %>
+    <% voted_user_ids = current_task&.estimations.to_a.pluck(:user_id) %>
+    <% @round.round_users.each do |round_user| %>
+      <%= render RoundUserComponent.new(round_user:, user_voted: voted_user_ids.include?(round_user.user_id)) %>
+    <% end %>
+  <% end %>
+
+
+  <%= turbo_frame_tag "tasks" do %>
     <%= render @round.tasks %>
   <% end %>
 </div>

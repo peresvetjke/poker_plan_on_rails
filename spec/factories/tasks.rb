@@ -6,6 +6,10 @@ FactoryBot.define do
     sequence(:title) { |n| "task##{n}" }
     state { :idle }
 
+    trait :idle do
+      state { :ongoing }
+    end
+
     trait :ongoing do
       state { :ongoing }
     end
