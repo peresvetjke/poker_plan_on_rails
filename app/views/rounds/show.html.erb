@@ -1,5 +1,5 @@
-<%= turbo_stream_from round_channel(@round.id) %>
-<%= turbo_stream_from round_user_channel(@round.id, current_user.id) %>
+<%= turbo_stream_from "round_#{@round.id}_round_users" %>
+<%= turbo_stream_from "#{@round.to_gid_param}:tasks" %>
 
 <%= link_to sanitize("&larr; Back to rounds"), rounds_path %>
 <div>
