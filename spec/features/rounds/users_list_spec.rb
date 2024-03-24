@@ -21,7 +21,6 @@ describe 'User can manage users list.', js: true do
         end
 
         expect(page).to have_content(user.username)
-
       end
     end
 
