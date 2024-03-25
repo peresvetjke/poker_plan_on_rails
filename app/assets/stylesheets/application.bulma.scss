@@ -9,6 +9,7 @@
 // $brown: #757763;
 // $beige-light: #D0D1CD;
 // $beige-lighter: #EFF0EB;
+$navy: #26495c;
 
 // Update Bulma's global variables
 // $family-sans-serif: "Nunito", sans-serif;
@@ -18,6 +19,9 @@
 // $link: $pink;
 // $widescreen-enabled: false;
 // $fullhd-enabled: false;
+$navbar-background-color: $navy;
+$navbar-box-shadow-color: $navy;
+$bulma-navbar-background-color: $navy;
 
 // Update some of Bulma's component variables
 // $body-background-color: $beige-lighter;
