@@ -41,3 +41,7 @@ $bulma-navbar-background-color: $navy;
 // @import "bulma/sass/layout/section.sass";
 
 @import 'bulma/bulma';
+
+.field_with_errors {
+  flex: 1;
+}
