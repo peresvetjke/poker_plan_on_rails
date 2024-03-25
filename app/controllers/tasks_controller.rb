@@ -3,7 +3,7 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_round, only: %i[new create index]
-  before_action :set_task, only: %i[show edit update destroy start estimate]
+  before_action :set_task, only: %i[show edit update destroy start estimate results]
 
   def index
     @rounds = @round.tasks
@@ -71,6 +71,8 @@ class TasksController < ApplicationController
       format.turbo_stream { nil }
     end
   end
+
+  def results; end
 
   private
 

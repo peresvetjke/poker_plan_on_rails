@@ -1,14 +1,18 @@
 <%= turbo_frame_tag round do %>
-  <div class="round">
-    <%= link_to round.title,
-                round_path(round),
-                data: { turbo_frame: "_top" } %>
-    <div class="round__actions">
-      <%= button_to "Delete",
-                    round_path(round),
-                    method: :delete %>
-      <%= link_to "Edit",
-                  edit_round_path(round) %>
+  <div class="round container">
+    <div class="level">
+      <%= link_to round.title,
+                  round_path(round),
+                  data: { turbo_frame: "_top" } %>
+
+      <div class="buttons">
+        <%= link_to edit_round_path(round), data: { turbo_frame: "modal" }, class: "is-pulled-right level-item" do %>
+          <%= render IconComponent.new(type: :edit) %>
+        <% end %>
+        <%= button_to round_path(round), method: :delete, data: {turbo_confirm: 'Are you sure?'}, class: "is-pulled-right level-item" do %>
+          <%= render IconComponent.new(type: :delete) %>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>

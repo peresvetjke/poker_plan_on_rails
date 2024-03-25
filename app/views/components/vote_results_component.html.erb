@@ -1,0 +1,26 @@
+<%= render ModalComponent.new do |c| %>
+  <% c.with_title do %>
+    Results for <%= @task.title %>
+  <% end %>
+  <% c.with_body do %>
+    <% @task.estimations.each do |estimation| %>
+      <div class="columns">
+        <div class="column">
+          <p><%= estimation.user.username %></p>
+        </div>
+        <div class="column">
+          <p><%= estimation.value %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="columns">
+      <div class="column">
+        <p class="has-text-weight-bold">AVERAGE</p>
+      </div>
+      <div class="column">
+        <p><%= @task.estimations.average(:value) %></p>
+      </div>
+    </div>
+  <% end %>
+<% end %>

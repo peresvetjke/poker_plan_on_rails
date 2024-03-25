@@ -1,9 +1,10 @@
-<%= link_to sanitize("&larr; Back to rounds"), rounds_path %>
-
-<div>
-  <h1>New round</h1>
-</div>
-
-<%= turbo_frame_tag @round do %>
-  <%= render "form", round: @round %>
+<%= turbo_frame_tag 'modal' do %>
+  <%= render ModalComponent.new do |c| %>
+    <% c.with_title do %>
+      New round
+    <% end %>
+    <% c.with_body do %>
+      <%= render 'form', round: @round %>
+    <% end %>
+  <% end %>
 <% end %>

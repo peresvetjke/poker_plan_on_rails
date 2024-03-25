@@ -10,4 +10,6 @@ class Task < ApplicationRecord
 
   broadcasts_to ->(task) { "round_#{task.round_id}" }, target: 'tasks',
                                                        inserts_by: :prepend
+
+  default_scope { in_order_of(:state, %w[ongoing idle finished]) }
 end

@@ -1,6 +1,8 @@
-<%= render "shared/errors", record: round %>
-<%= form_with model: round do |f| %>
-  <%= f.text_field :title %>
-  <%= link_to "Cancel", rounds_path %>
-  <%= f.submit "Save" %>
+<%= form_with model: round, class: "field is-horizontal mt-6" do |f| %>
+  <%= f.text_field :title, class: "input", autofocus: true %>
+
+  <a class="button control ml-2" data-action="modal#close">Cancel</a>
+  <%= f.submit "Save", class: "is-success button control ml-2", data: { action: "modal#close" } %>
 <% end %>
+
+<%= render "shared/errors", record: round %>
