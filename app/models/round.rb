@@ -11,7 +11,5 @@ class Round < ApplicationRecord
                                                                                     dependent: :destroy,
                                                                                     inverse_of: :round
 
-  scope :ordered, -> { order(id: :desc) }
-
   broadcasts_to ->(_) { 'rounds' }, inserts_by: :prepend
 end

@@ -12,12 +12,16 @@
   </head>
 
   <body>
-    <div id="flash" class="flash">
-      <%= render "layouts/flash" %>
-    </div>
     <div id="nav" class="nav">
       <%= render "layouts/nav" %>
     </div>
-    <%= yield %>
+
+    <div id="flash" class="flash"></div>
+
+    <div class="p-6">
+      <%= yield %>
+    </div>
+
+    <%= turbo_frame_tag "modal" %>
   </body>
 </html>

@@ -5,7 +5,7 @@ class RoundUsersController < ApplicationController
   before_action :set_round_user, only: %i[destroy]
 
   def destroy
-    @round_user.destroy
+    RoundUsers::Destroy.new(round_user: @round_user).call
 
     message = 'User was successfully kicked.'
     respond_to do |format|

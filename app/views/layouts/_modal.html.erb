@@ -1,0 +1,18 @@
+<%# locals: (title:, body:) -%>
+<%= turbo_frame_tag "modal" do %>
+  <div class="modal is-active" data-controller="modal">
+    <div class="modal-background" data-action="click->modal#close"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">
+          <%= title %>
+        </p>
+        <button class="delete" aria-label="close" data-action="modal#close"></button>
+      </header>
+
+      <section class="modal-card-body">
+        <%= body.call %>
+      </section>
+    </div>
+  </div>
+<% end %>

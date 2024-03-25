@@ -1,0 +1,14 @@
+<%# locals: (round:, current_task: nil) -%>
+
+<% current_task = current_task || round.current_task %>
+<% voted_user_ids = current_task&.estimations.to_a.pluck(:user_id) %>
+
+<% round.round_users.each do |round_user| %>
+  <%=
+    render partial: "round_users/round_user", locals: {
+      round_user:,
+      user: round_user.user,
+      user_voted: current_task.blank? ? nil : voted_user_ids.include?(round_user.user_id)
+    }
+  %>
+<% end %>

@@ -1,0 +1,13 @@
+<div class="columns">
+  <div class="column is-one-fifth">
+  </div>
+  <div class="column is-two-thirds">
+    <div class="level">
+      <p class="title level-left"><%= @round.title %> finished tasks</p>
+    </div>
+
+    <div class="mt-6">
+      <%= render @round.tasks.finished %>
+    </div>
+  </div>
+</div>

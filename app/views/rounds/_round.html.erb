@@ -1,14 +1,20 @@
 <%= turbo_frame_tag round do %>
-  <div class="round">
-    <%= link_to round.title,
-                round_path(round),
-                data: { turbo_frame: "_top" } %>
-    <div class="round__actions">
-      <%= button_to "Delete",
-                    round_path(round),
-                    method: :delete %>
-      <%= link_to "Edit",
-                  edit_round_path(round) %>
+  <div class="round columns">
+    <div class="column">
+      <%= link_to round.title,
+                  round_path(round),
+                  # https://stackoverflow.com/questions/78042975/rails-with-hotwire-turbo-doing-get-requests-on-link-hover
+                  data: { turbo_frame: "_top", "turbo-prefetch": "false" } %>
+    </div>
+    <div class="column is-2">
+      <div class="buttons">
+        <%= link_to edit_round_path(round), data: { turbo_frame: "modal" }, class: "is-pulled-right" do %>
+          <%= render partial: "layouts/icon", locals: { type: :edit } %>
+        <% end %>
+        <%= button_to round_path(round), method: :delete, data: {turbo_confirm: 'Are you sure?'}, class: "is-pulled-right" do %>
+          <%= render partial: "layouts/icon", locals: { type: :delete } %>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>

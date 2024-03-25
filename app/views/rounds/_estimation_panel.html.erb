@@ -1,0 +1,27 @@
+<%# locals: (current_task:, user:, current_value:) -%>
+
+<p class="level title is-size-5">
+  Current task
+</p>
+<div class="field is-grouped mt-4">
+  <div class="field-label is-normal has-text-left">
+    <p>
+      <%= shorten(current_task&.title) || "to be defined" %>
+    </p>
+  </div>
+  <div class="field-body">
+    <div class="field is-narrow">
+      <div class="buttons has-addons">
+        <% Estimation::OPTIONS.each do |v| %>
+          <% if current_task.blank? || user.is_moderator? %>
+            <button class="button" disabled><%= v %></button>
+          <% else %>
+            <%= link_to v, estimate_task_path(current_task, {value: v}),
+                           class: "button #{current_value == v ? 'is-success' : nil}",
+                           data: { turbo_method: "post" } %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

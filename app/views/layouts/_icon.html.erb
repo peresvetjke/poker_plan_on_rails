@@ -1,0 +1,7 @@
+<%# locals: (type:, file_name: nil, size: nil, alt: nil) -%>
+
+<% file_name = file_name || "#{type}.svg" %>
+<% size = size || '20x20' %>
+<% alt = alt || type.to_s.humanize %>
+
+<%= image_tag file_name, size: size, alt: alt %>

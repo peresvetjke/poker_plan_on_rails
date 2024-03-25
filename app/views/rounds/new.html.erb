@@ -1,9 +1,6 @@
-<%= link_to sanitize("&larr; Back to rounds"), rounds_path %>
-
-<div>
-  <h1>New round</h1>
-</div>
-
-<%= turbo_frame_tag @round do %>
-  <%= render "form", round: @round %>
+<% title = "New round" %>
+<% body = Proc.new do %>
+  <%= render 'form', round: @round %>
 <% end %>
+
+<%= render partial: "layouts/modal", locals: { title:, body: } %>
