@@ -1,17 +1,17 @@
 <%= turbo_frame_tag task, class: "task" do %>
-  <%# <div class="task"> %>
-    <div class='title'>
+  <div class="container mt-6 level">
+    <p class="level-item">
       <%= task.title %>
-    </div>
+    </p>
 
-    <div class='state'>
+    <p class="state level-item">
       <%= task.state %>
-    </div>
+    </p>
 
-    <div class="round__actions">
-      <%= button_to "Start", start_task_path(task), class: 'start' %>
-      <%= link_to "Edit", edit_task_path(task), class: 'edit' %>
-      <%= button_to "Delete", task_path(task), method: :delete, class: 'delete' %>
+    <div class="buttons task__actions">
+      <%= button_to "Start", start_task_path(task), class: 'start button is-pulled-right level-item' %>
+      <%= link_to "Edit", edit_task_path(task), class: 'edit button is-pulled-right level-item' %>
+      <%= button_to "Delete", task_path(task), method: :delete, class: 'button is-pulled-right level-item' %>
     </div>
-  <%# </div> %>
+  </div>
 <% end %>

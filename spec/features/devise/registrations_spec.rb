@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'User can register.', js: true do
+describe 'User can register.', :js do
   let(:user) { create(:user, email: 'user1@example.com', username: 'username1', password: 'password') }
 
   describe 'sign_up' do
@@ -26,13 +26,13 @@ describe 'User can register.', js: true do
       visit rounds_path
     end
 
-    it 'allows user to update user record', aggregate_failures: true do
-      click_link user.email
+    it 'allows user to update user record', :aggregate_failures do
+      click_link_or_button user.email
       fill_in 'Username', with: 'username2'
       fill_in 'Current password', with: 'password'
-      click_button 'Update'
+      click_link_or_button 'Update'
       expect(page).to have_content('Your account has been updated successfully.')
-      click_link user.email
+      click_link_or_button user.email
       expect(page).to have_field('Username', with: 'username2')
     end
   end

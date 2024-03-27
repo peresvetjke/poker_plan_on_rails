@@ -1,0 +1,85 @@
+// @charset "utf-8";
+
+// Import a Google Font
+// @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// Set your brand colors
+// $purple: #8A4D76;
+// $pink: #FA7C91;
+// $brown: #757763;
+// $beige-light: #D0D1CD;
+// $beige-lighter: #EFF0EB;
+$navy: #26495c;
+
+// Update Bulma's global variables
+// $family-sans-serif: "Nunito", sans-serif;
+// $grey-dark: $brown;
+// $grey-light: $beige-light;
+// $primary: $purple;
+// $link: $pink;
+// $widescreen-enabled: false;
+// $fullhd-enabled: false;
+$navbar-background-color: $navy;
+$navbar-box-shadow-color: $navy;
+$bulma-navbar-background-color: $navy;
+
+// Update some of Bulma's component variables
+// $body-background-color: $beige-lighter;
+// $control-border-width: 2px;
+// $input-border-color: transparent;
+// $input-shadow: none;
+
+// Import only what you need from Bulma
+// @import "bulma/sass/utilities/_all.sass";
+// @import "bulma/sass/base/_all.sass";
+// @import "bulma/sass/elements/button.sass";
+// @import "bulma/sass/elements/container.sass";
+// @import "bulma/sass/elements/title.sass";
+// @import "bulma/sass/form/_all.sass";
+// @import "bulma/sass/components/navbar.sass";
+// @import "bulma/sass/layout/hero.sass";
+// @import "bulma/sass/layout/section.sass";
+
+@import 'bulma/bulma';
+
+.field_with_errors {
+  flex: 1;
+}
+
+.flash {
+  position: fixed !important;
+  top: 5rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: var(--space-s) !important;
+
+  max-width: 100% !important;
+  width: max-content !important;
+  padding: 0 var(--space-m) !important;
+
+  &__message {
+    font-size: var(--font-size-s) !important;
+    color: var(--color-white) !important;
+    padding: var(--space-xs) var(--space-m) !important;
+    background-color: var(--color-dark) !important;
+    animation: appear-then-fade 4s both !important;
+    border-radius: 999px !important;
+  }
+}
+
+@keyframes appear-then-fade {
+
+  0%,
+  100% {
+    opacity: 0
+  }
+
+  5%,
+  60% {
+    opacity: 1
+  }
+}

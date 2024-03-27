@@ -29,7 +29,7 @@ module Tasks
 
     def start_task
       return unless ActiveRecord::Base.transaction do
-        Task.ongoing.where(round_id: task.round_id).each(&:idle!)
+        Task.ongoing.where(round_id: task.round_id).find_each(&:idle!)
         task.ongoing!
       end
 

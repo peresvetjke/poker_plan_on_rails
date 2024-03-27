@@ -15,7 +15,7 @@ RSpec.describe Tasks::Estimate do
       expect { service_call }.to change(Estimation, :count).by(1)
     end
 
-    it 'returns estimation', aggregate_failures: true do
+    it 'returns estimation', :aggregate_failures do
       expect(service_call).to be_an(Estimation)
       expect(service_call.value).to eq(value)
       expect(task.estimations.first.value).to eq(value)
@@ -67,7 +67,7 @@ RSpec.describe Tasks::Estimate do
       context 'with the same value' do
         before { create(:estimation, task:, user:, value:) }
 
-        it 'destroys estimation', aggregate_failures: true do
+        it 'destroys estimation', :aggregate_failures do
           expect { service_call }.to change(Estimation, :count).from(1).to(0)
           expect(service_call).to be_nil
         end
@@ -76,7 +76,7 @@ RSpec.describe Tasks::Estimate do
       context 'with other value' do
         before { create(:estimation, task:, user:, value: value + 1) }
 
-        it 'updates estimation', aggregate_failures: true do
+        it 'updates estimation', :aggregate_failures do
           expect { service_call }.not_to change(Estimation, :count)
           expect(service_call).to be_an(Estimation)
           expect(service_call.value).to eq(value)

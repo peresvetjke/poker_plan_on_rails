@@ -2,14 +2,14 @@
 
 require 'rails_helper'
 
-describe 'User can manage users list.', js: true do
+describe 'User can manage users list.', :js do
   let!(:round) { create(:round, :with_tasks) }
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
 
   describe 'users list' do
     describe 'new user' do
-      it 'streams round users', aggregate_failures: true do
+      it 'streams round users', :aggregate_failures do
         sign_in other_user
         visit round_path(round)
         sleep 0.5
@@ -27,7 +27,7 @@ describe 'User can manage users list.', js: true do
     describe 'kicking user' do
       let(:round_user) { RoundUser.find_by(user_id: other_user, round_id: round.id) }
 
-      it 'streams round users', aggregate_failures: true do
+      it 'streams round users', :aggregate_failures do
         sign_in other_user
         visit round_path(round)
         within('#users_list') { expect(page).to have_content(other_user.username) }
@@ -39,7 +39,7 @@ describe 'User can manage users list.', js: true do
           within("#round_user_#{round_user.id}") { click_on 'Delete' }
         end
 
-        within('#users_list') { expect(page).not_to have_content(other_user.username) }
+        within('#users_list') { expect(page).to have_no_content(other_user.username) }
       end
     end
   end
