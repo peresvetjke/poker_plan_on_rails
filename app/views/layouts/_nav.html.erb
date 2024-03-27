@@ -9,7 +9,7 @@
     <div class="navbar-item">
       <div class="field is-grouped">
         <% if user_signed_in? %>
-          <%= link_to "Edit account", edit_user_registration_path, class: "button" %>
+          <%= link_to current_user.email, edit_user_registration_path, class: "button" %>
           <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "button" %>
         <% else %>
           <%= link_to "Sign in", new_user_session_path, class: "button" %>

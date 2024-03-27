@@ -1,4 +1,4 @@
 <%= turbo_stream.replace @task %>
-<%= turbo_stream.update estimation_panel_frame_tag do %>
-  <%= render EstimationPanel::Component.new(task_id: @task.round.current_task&.id, value: @value) %>
+<%= turbo_stream.update 'estimation_panel' do %>
+  <%= render EstimationPanelComponent.new(current_task: @task.round.current_task, current_value: @value) %>
 <% end %>

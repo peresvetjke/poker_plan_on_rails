@@ -45,3 +45,41 @@ $bulma-navbar-background-color: $navy;
 .field_with_errors {
   flex: 1;
 }
+
+.flash {
+  position: fixed !important;
+  top: 5rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: var(--space-s) !important;
+
+  max-width: 100% !important;
+  width: max-content !important;
+  padding: 0 var(--space-m) !important;
+
+  &__message {
+    font-size: var(--font-size-s) !important;
+    color: var(--color-white) !important;
+    padding: var(--space-xs) var(--space-m) !important;
+    background-color: var(--color-dark) !important;
+    animation: appear-then-fade 4s both !important;
+    border-radius: 999px !important;
+  }
+}
+
+@keyframes appear-then-fade {
+
+  0%,
+  100% {
+    opacity: 0
+  }
+
+  5%,
+  60% {
+    opacity: 1
+  }
+}

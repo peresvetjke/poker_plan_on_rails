@@ -1,3 +1,10 @@
-<% Estimation::OPTIONS.each do |v| %>
-  <%= button_to "#{v} (#{@current_value == v})", estimate_task_path(@current_task), params: { value: @current_value } %>
-<% end %>
+<div class="box">
+  <div class="container is-underlined">
+    <%= @current_task.title %>
+  </div>
+  <div class="container buttons mt-4">
+    <% Estimation::OPTIONS.each do |v| %>
+      <%= button_to v, estimate_task_path(@current_task), params: { value: v }, class: "button" %>
+    <% end %>
+  </div>
+</div>

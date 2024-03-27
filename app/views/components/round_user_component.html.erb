@@ -1,11 +1,18 @@
 <turbo-frame id="<%= dom_id(@round_user) %>">
-  <%= @round_user.username %>
+  <div class="level">
+    <p class="level-item">
+      <%= "#{@round_user.username}"%>
+    </p>
 
-  <%= @user_voted ? 'true' : 'false' %>
+    <p class="level-item">
+      <%= @user_voted ? 'true' : 'false' %>
+    </p>
 
-  <div class="round_user__actions">
-    <%= button_to "Delete",
-                  round_user_path(@round_user),
-                  method: :delete %>
+
+    <div class="round_user__actions buttons">
+      <%= button_to "Delete",
+                    round_user_path(@round_user),
+                    method: :delete, class: "button level-item" %>
+    </div>
   </div>
 </turbo-frame>
