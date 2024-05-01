@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'User can estimate tasks.', js: true do
+describe 'User can estimate tasks.', :js do
   let!(:round) { create(:round) }
   let!(:user) { create(:user) }
   let!(:current_task) { create(:task, round:, state:) }

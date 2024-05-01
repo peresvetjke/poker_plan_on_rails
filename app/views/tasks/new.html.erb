@@ -1,3 +1,6 @@
-<%= turbo_frame_tag @task do %>
-  <%= render "form", task: @task %>
+<% title = "New task" %>
+<% body = Proc.new do %>
+  <%= render 'form', round: @task %>
 <% end %>
+
+<%= render partial: "layouts/modal", locals: { title:, body: } %>

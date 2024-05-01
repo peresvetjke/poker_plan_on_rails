@@ -2,9 +2,10 @@
 
 module Tasks
   class Start
-    def initialize(task:)
+    def initialize(task:, listener: nil)
       @task = task
       @round = Round.find(task.round_id)
+      @listener = listener || Listeners::Round.new
     end
 
     def call
@@ -16,7 +17,7 @@ module Tasks
 
     private
 
-    attr_reader :task, :round
+    attr_reader :task, :round, :listener
 
     def stop_task
       return unless ActiveRecord::Base.transaction do
@@ -24,32 +25,16 @@ module Tasks
         task.idle!
       end
 
-      hide_estimation_panels
+      listener.task_stopped(task:)
     end
 
     def start_task
       return unless ActiveRecord::Base.transaction do
-        Task.ongoing.where(round_id: task.round_id).each(&:idle!)
+        Task.ongoing.where(round_id: task.round_id).find_each(&:idle!)
         task.ongoing!
       end
 
-      initiate_estimation_panels
-    end
-
-    def initiate_estimation_panels
-      round.users.each do |user|
-        estimation_panel(round:, user:).update(current_task: task, current_value: nil)
-      end
-    end
-
-    def hide_estimation_panels
-      round.users.each do |user|
-        estimation_panel(round:, user:).hide
-      end
-    end
-
-    def estimation_panel(round:, user:)
-      Broadcasts::EstimationPanel.new(round:, user:)
+      listener.task_started(task:)
     end
   end
 end

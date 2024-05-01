@@ -1,3 +1,2 @@
 <%= turbo_stream.prepend "#{dom_id(@round)}_tasks", @task %>
 <%= turbo_stream.update Task.new, "" %>
-<%= render_turbo_stream_flash_messages %>

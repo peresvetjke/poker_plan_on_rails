@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'User can manage rounds list.', js: true do
+describe 'User can manage rounds list.', :js do
   let!(:round) { create(:round, :with_tasks) }
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
@@ -13,18 +13,18 @@ describe 'User can manage rounds list.', js: true do
       visit rounds_path
     end
 
-    it 'displays all rounds', aggregate_failures: true do
+    it 'displays all rounds', :aggregate_failures do
       expect(page).to have_text(round.title)
     end
 
     it 'allows to go to round' do
-      click_link(round.title)
+      click_link_or_button round.title
       expect(page).to have_text(round.tasks.first.title)
     end
   end
 
   describe 'show' do
-    it 'shows tasks', aggregate_failures: true do
+    it 'shows tasks', :aggregate_failures do
       sign_in user
       visit round_path(round)
       round.tasks.each do |task|
@@ -34,7 +34,7 @@ describe 'User can manage rounds list.', js: true do
   end
 
   describe 'create' do
-    it 'saves round', aggregate_failures: true do
+    it 'saves round', :aggregate_failures do
       sign_in user
       visit rounds_path
       click_on 'New round'
@@ -94,7 +94,7 @@ describe 'User can manage rounds list.', js: true do
       sign_in user
       visit rounds_path
       click_on 'Delete', match: :first
-      expect(page).not_to have_content(round.title)
+      expect(page).to have_no_content(round.title)
     end
 
     it 'streams updates to other users' do
@@ -108,7 +108,7 @@ describe 'User can manage rounds list.', js: true do
         click_on 'Delete', match: :first
       end
 
-      expect(page).not_to have_content(round.title)
+      expect(page).to have_no_content(round.title)
     end
   end
 end

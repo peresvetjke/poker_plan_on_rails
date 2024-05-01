@@ -16,7 +16,7 @@ RSpec.describe Tasks::Start do
     describe 'broadcasts update' do
       let(:user) { create(:round_user, round: task.round).user }
 
-      it 'initiates estimation panels for all users', aggregate_failures: true do
+      it 'initiates estimation panels for all users', :aggregate_failures do
         estimation_panel = instance_double(Broadcasts::EstimationPanel)
         allow(Broadcasts::EstimationPanel).to receive(:new).with(round:, user:).and_return(estimation_panel)
         allow(estimation_panel).to receive(:update)
@@ -38,7 +38,7 @@ RSpec.describe Tasks::Start do
     describe 'broadcasts update' do
       let(:user) { create(:round_user, round:).user }
 
-      it 'hides estimation panels', aggregate_failures: true do
+      it 'hides estimation panels', :aggregate_failures do
         estimation_panel = instance_double(Broadcasts::EstimationPanel)
         allow(Broadcasts::EstimationPanel).to receive(:new).with(round:, user:).and_return(estimation_panel)
         allow(estimation_panel).to receive(:hide)

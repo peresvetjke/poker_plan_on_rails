@@ -1,0 +1,103 @@
+// @charset "utf-8";
+// @use 'bulma/bulma' with ($navbar-background-color: #05F554);
+
+// Import a Google Font
+// @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// Set your brand colors
+// $purple: #8A4D76;
+// $pink: #FA7C91;
+// $brown: #757763;
+// $beige-light: #D0D1CD;
+// $beige-lighter: #EFF0EB;
+
+// Customizing variables
+// $info: $blue2;
+// $primary: $blue3;
+// $navbar-item-hover-background-color: $lime;
+// '--bulma-': #05F554;
+
+// ::content {
+//   --bulma-: #05F554
+// }
+
+// Update Bulma's global variables
+// $family-sans-serif: "Nunito", sans-serif;
+// $grey-dark: $brown;
+// $grey-light: $beige-light;
+// $primary: $purple;
+// $link: $pink;
+// $widescreen-enabled: false;
+// $fullhd-enabled: false;
+// $navbar-background-color: $navy;
+// $navbar-background-color: #26495c;
+// $navbar-box-shadow-color: $navy;
+// $bulma-navbar-background-color: $navy;
+
+// Update some of Bulma's component variables
+// $body-background-color: $beige-lighter;
+// $control-border-width: 2px;
+// $input-border-color: transparent;
+// $input-shadow: none;
+
+// Import only what you need from Bulma
+// @import "bulma/sass/utilities/_all.sass";
+// @import "bulma/sass/base/_all.sass";
+// @import "bulma/sass/elements/button.sass";
+// @import "bulma/sass/elements/container.sass";
+// @import "bulma/sass/elements/title.sass";
+// @import "bulma/sass/form/_all.sass";
+// @import "bulma/sass/components/navbar.sass";
+// @import "bulma/sass/layout/hero.sass";
+// @import "bulma/sass/layout/section.sass";
+
+@import 'bulma/bulma';
+@import 'components/flash';
+@import 'components/navbar';
+@import 'components/list';
+@import 'config/animations';
+
+.field_with_errors {
+  flex: 1;
+}
+
+.level-left.no-gap {
+  gap: 0;
+}
+
+#users_title {
+  padding-top: 9px !important;
+  padding-bottom: 69px !important;
+}
+
+// #users_list {
+//   padding-top: 100px !important;
+//   display: inline-block;
+// }
+
+.round {
+  @extend .list-item;
+}
+
+.task {
+  @extend .list-item;
+}
+
+.round_user {
+  @extend .list-item;
+}
+
+.modal {
+  .modal-card-body {
+    border-end-start-radius: var(--bulma-modal-card-head-radius);
+    border-end-end-radius: var(--bulma-modal-card-head-radius);
+  }
+}
+
+.task--start {
+  width: 1%;
+}
+
+.round_user--status {
+  right: 0px;
+}

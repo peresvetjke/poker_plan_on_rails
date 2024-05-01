@@ -1,0 +1,3 @@
+<%# locals: (round:) -%>
+
+<%= link_to "Finished tasks (#{round.tasks.finished.count})", finished_round_tasks_path(round), data: { turbo: "false" }, target: :_blank %>

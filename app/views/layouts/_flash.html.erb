@@ -1,9 +1,4 @@
-<% flash.each do |flash_type, message| %>
-  <div
-    class="flash__message"
-    data-controller="removals"
-    data-action="animationend->removals#remove"
-  >
-    <%= message %>
-  </div>
-<% end %>
+<article class="container is-small flash__message is-link" data-controller="removals" data-action="animationend->removals#remove">
+  <p><%= message %></p>
+  <button class="delete is-small" aria-label="delete"></button>
+</article>

@@ -5,11 +5,11 @@ class RoundsController < ApplicationController
   before_action :set_round, only: %i[show edit update destroy]
 
   def index
-    @rounds = Round.ordered
+    @rounds = Round.all
   end
 
   def show
-    RoundUser.find_or_create_by(user_id: current_user.id, round_id: @round.id)
+    RoundUsers::Create.new(user_id: current_user.id, round_id: @round.id).call
   end
 
   def new

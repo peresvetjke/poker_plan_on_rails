@@ -1,0 +1,25 @@
+<%# locals: (task:) -%>
+
+<% title = "Results for #{task.title}" %>
+<% body = Proc.new do %>
+  <% task.estimations.each do |estimation| %>
+    <div class="columns">
+      <div class="column">
+        <p><%= estimation.user.username %></p>
+      </div>
+      <div class="column">
+        <p><%= estimation.value %></p>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="columns">
+    <div class="column">
+      <p class="has-text-weight-bold">AVERAGE</p>
+    </div>
+    <div class="column">
+      <p>
+        <%= task.estimations.average(:value) %>
+<% end %>
+
+<%= render partial: "layouts/modal", locals: { title:, body: } %>

@@ -1,17 +1,43 @@
-<%= turbo_frame_tag task, class: "task" do %>
-  <%# <div class="task"> %>
-    <div class='title'>
-      <%= task.title %>
+<%= turbo_frame_tag task do %>
+  <div class="task container columns">
+    <div class="column is-1">
+      <div>
+        <% case task.state
+          when 'idle' %>
+        <%= button_to start_task_path(task) do %>
+          <%= render partial: "layouts/icon", locals: { type: :start } %>
+        <% end %>
+        <% when 'ongoing' %>
+          <%= button_to start_task_path(task) do %>
+            <%= render partial: "layouts/icon", locals: { type: :pause } %>
+          <% end %>
+        <% when 'finished' %>
+          <%= render partial: "layouts/icon", locals: { type: :check } %>
+        <% end %>
+      </div>
+    </div>
+    <p class="column">
+      <%= shorten(task.title) %>
+    </p>
+
+    <div class="column is-2">
+      <div class="level-item">
+        <% if task.finished? %>
+          <%= link_to task_results_path(task), data: { turbo_frame: "modal" }, class: 'start' do %>
+            <%= render partial: "layouts/icon", locals: { type: :result } %>
+          <% end %>
+        <% end %>
+        <% unless task.finished? %>
+          <%= link_to edit_task_path(task), data: { turbo_frame: "modal" }, class: 'edit' do %>
+            <%= render partial: "layouts/icon", locals: { type: :edit } %>
+          <% end %>
+        <% end %>
+
+        <%= button_to task_path(task), method: :delete, data: {turbo_confirm: 'Are you sure?'}, class: 'ml-2' do %>
+          <%= render partial: "layouts/icon", locals: { type: :delete } %>
+        <% end %>
+      </div>
     </div>
 
-    <div class='state'>
-      <%= task.state %>
-    </div>
-
-    <div class="round__actions">
-      <%= button_to "Start", start_task_path(task), class: 'start' %>
-      <%= link_to "Edit", edit_task_path(task), class: 'edit' %>
-      <%= button_to "Delete", task_path(task), method: :delete, class: 'delete' %>
-    </div>
-  <%# </div> %>
+  </div>
 <% end %>

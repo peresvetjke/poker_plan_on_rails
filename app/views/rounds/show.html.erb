@@ -1,36 +1,53 @@
 <%= turbo_stream_from dom_id(@round) %>
 <%= turbo_stream_from "round_#{@round.id}_user_#{current_user.id}" %>
 
-<%= link_to sanitize("&larr; Back to rounds"), rounds_path %>
-<div>
-  <div class="header">
-    <h1>
-      <%= @round.title %>
-    </h1>
-    <%= link_to "New task",
-              new_round_task_path(@round),
-              data: { turbo_frame: "new_task" } %>
+<% current_task = @round.current_task %>
+<% current_value = Estimation.find_by(user_id: current_user.id, task_id: current_task&.id)&.value %>
+
+<div id="estimation_panel">
+  <%= render partial: "estimation_panel", locals: { current_task:, user: current_user, current_value: } %>
+</div>
+
+<div class="columns mt-6">
+  <div class="column is-one-third">
+    <p id="users_title" class="title is-size-5">
+      Users
+    </p>
+    <div>
+      <div>
+        <%= turbo_frame_tag 'users_list' do %>
+          <%= render partial: "users_list", locals: { round: @round, current_task: current_task } %>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <%= turbo_frame_tag Task.new %>
+  <div class="column ml-6">
+    <div class="level">
+      <p class="title is-size-5 level-item level-left">
+        Tasks
+      </p>
+      <div class="level-right mr-5">
+        <p class="level-item">
+          <%= link_to "New task",
+                  new_round_task_path(@round),
+                  data: { turbo_frame: "modal" }, class: "button" %>
+        </p>
+      </div>
+    </div>
 
-  <% current_task = @round.current_task %>
+    <%= turbo_frame_tag Task.new %>
 
-  <%= turbo_frame_tag 'estimation_panel' do %>
-    <% current_value = Estimation.find_by(user_id: current_user.id, task_id: current_task&.id)&.value %>
-    <%= render(EstimationPanelComponent.new(current_task:, current_value:)) %>
-  <% end %>
+    <div class="mt-6">
+      <%= turbo_frame_tag "tasks" do %>
+        <%= render @round.tasks.current %>
+      <% end %>
+    </div>
 
-  <%= turbo_frame_tag 'users_list' do %>
-    <% round_users = @round.round_users.preload(:user) %>
-    <% voted_user_ids = current_task&.estimations.to_a.pluck(:user_id) %>
-    <% @round.round_users.each do |round_user| %>
-      <%= render RoundUserComponent.new(round_user:, user_voted: voted_user_ids.include?(round_user.user_id)) %>
-    <% end %>
-  <% end %>
-
-
-  <%= turbo_frame_tag "tasks" do %>
-    <%= render @round.tasks %>
-  <% end %>
+    <div class="mt-6">
+      <%= turbo_frame_tag 'finished_tasks_link' do %>
+        <%= render partial: "finished_tasks_link", locals: {round: @round}, data: { turbo: "false" } %>
+      <% end %>
+    </div>
+  </div>
 </div>
