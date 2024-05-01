@@ -1,3 +1,10 @@
-<%= turbo_frame_tag @round do %>
-  <%= render "form", round: @round %>
+<%= turbo_frame_tag 'modal' do %>
+  <%= render ModalComponent.new do |c| %>
+    <% c.with_title do %>
+      Edit round
+    <% end %>
+    <% c.with_body do %>
+      <%= render 'form', round: @round %>
+    <% end %>
+  <% end %>
 <% end %>

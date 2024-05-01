@@ -1,17 +1,46 @@
-<%= turbo_frame_tag task, class: "task" do %>
-  <%# <div class="task"> %>
-    <div class='title'>
-      <%= task.title %>
-    </div>
+<%= turbo_frame_tag task do %>
+  <div class="task container columns level">
+    <div class="column is-one-fifth">
+      <div class='level-item'>
+        <% case task.state
+          when 'idle' %>
+        <%= button_to start_task_path(task) do %>
+          <%= render IconComponent.new(type: :start) %>
+        <% end %>
+        <% when 'ongoing' %>
+          <%= button_to start_task_path(task) do %>
+            <%= render IconComponent.new(type: :pause) %>
+          <% end %>
+        <% when 'finished' %>
+          <%= render IconComponent.new(type: :check) %>
+        <% end %>
+        <p class="column">
+          <%= task.title %>
+        </p>
+      </div>
 
-    <div class='state'>
-      <%= task.state %>
-    </div>
 
-    <div class="round__actions">
-      <%= button_to "Start", start_task_path(task), class: 'start' %>
-      <%= link_to "Edit", edit_task_path(task), class: 'edit' %>
-      <%= button_to "Delete", task_path(task), method: :delete, class: 'delete' %>
     </div>
-  <%# </div> %>
+    <div class="column">
+      <div>
+        <% if task.finished? %>
+          <%= link_to task_results_path(task), data: { turbo_frame: "modal" }, class: 'ml-2 start is-pulled-right level-item' do %>
+            <%= render IconComponent.new(type: :result) %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div>
+        <%= link_to edit_task_path(task), data: { turbo_frame: "modal" }, class: 'ml-2 edit is-pulled-right level-item' do %>
+          <%= render IconComponent.new(type: :edit) %>
+        <% end %>
+
+        <%= button_to task_path(task), method: :delete, data: {turbo_confirm: 'Are you sure?'}, class: 'ml-2 is-pulled-right level-item' do %>
+          <%= render IconComponent.new(type: :delete) %>
+        <% end %>
+      </div>
+
+
+    </div>
+  </div>
 <% end %>

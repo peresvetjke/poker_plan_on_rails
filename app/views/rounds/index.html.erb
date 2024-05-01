@@ -1,13 +1,22 @@
 <%= turbo_stream_from "rounds" %>
 
-<div class="header">
-  <h1>Rounds</h1>
-  <%= link_to "New round",
-              new_round_path,
-              data: { turbo_frame: "new_round" } %>
+<div class="level">
+  <div class="level-left no-gap">
+    <p class="level-item">
+      <h1 class="title">Rounds</h1>
+    </p>
+  </div>
+
+  <div class="level-right">
+    <p class="level-item">
+      <%= link_to "New round", new_round_path, data: { turbo_frame: "modal" }, class: "button" %>
+    </p>
+  </div>
 </div>
 
 <%= turbo_frame_tag Round.new %>
-<%= turbo_frame_tag "rounds" do %>
-  <%= render @rounds %>
-<% end %>
+<div class="mt-6">
+  <%= turbo_frame_tag "rounds" do %>
+    <%= render @rounds %>
+  <% end %>
+</div>

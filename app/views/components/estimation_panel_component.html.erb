@@ -1,3 +1,18 @@
-<% Estimation::OPTIONS.each do |v| %>
-  <%= button_to "#{v} (#{@current_value == v})", estimate_task_path(@current_task), params: { value: @current_value } %>
-<% end %>
+<div class="estimation_panel box">
+  <div class="container">
+    <% if @current_task %>
+      <p>Current task: <%= @current_task.title %></p>
+    <% else %>
+      <p>Current task: to be defined</p>
+    <% end %>
+  </div>
+  <div class="container buttons mt-4">
+    <% Estimation::OPTIONS.each do |v| %>
+      <% if @current_task %>
+        <%= button_to v, estimate_task_path(@current_task), params: { value: v }, class: "button" %>
+      <% else %>
+        <button class="button" disabled><%= v %></button>
+      <% end %>
+    <% end %>
+  </div>
+</div>

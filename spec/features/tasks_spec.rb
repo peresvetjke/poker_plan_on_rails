@@ -2,14 +2,14 @@
 
 require 'rails_helper'
 
-describe 'User can manage tasks list.', js: true do
+describe 'User can manage tasks list.', :js do
   let!(:round) { create(:round, :with_tasks) }
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
   let(:task_title) { 'My first task' }
 
   describe 'create' do
-    it 'allows to create saves task', aggregate_failures: true do
+    it 'allows to create saves task', :aggregate_failures do
       sign_in user
       visit round_path(round)
       click_on 'New task'
@@ -67,18 +67,18 @@ describe 'User can manage tasks list.', js: true do
   describe 'destroy' do
     let(:task_title) { round.tasks.first.title }
 
-    it 'allows do destroy tasks', aggregate_failures: true do
+    it 'allows do destroy tasks', :aggregate_failures do
       sign_in user
       visit round_path(round)
-      expect(page).to have_selector('.task', count: 2)
+      expect(page).to have_css('.task', count: 2)
       within("#task_#{round.tasks.first.id}") { click_on 'Delete' }
-      expect(page).to have_selector('.task', count: 1)
+      expect(page).to have_css('.task', count: 1)
     end
 
-    it 'streams updates to other users', aggregate_failures: true do
+    it 'streams updates to other users', :aggregate_failures do
       sign_in other_user
       visit round_path(round)
-      expect(page).to have_selector('.task', count: 2)
+      expect(page).to have_css('.task', count: 2)
       sleep 0.5
 
       using_session 'user' do
@@ -87,7 +87,7 @@ describe 'User can manage tasks list.', js: true do
         within("#task_#{round.tasks.first.id}") { click_on 'Delete' }
       end
 
-      expect(page).to have_selector('.task', count: 1)
+      expect(page).to have_css('.task', count: 1)
     end
   end
 end

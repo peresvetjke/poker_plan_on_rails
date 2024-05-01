@@ -1,11 +1,19 @@
 <turbo-frame id="<%= dom_id(@round_user) %>">
-  <%= @round_user.username %>
+  <div class="level round_user">
+    <p class="level-left">
+      <%= "#{@round_user.username}"%>
+    </p>
 
-  <%= @user_voted ? 'true' : 'false' %>
+    <div class="level-right">
+      <% if @user_voted %>
+        <%= render IconComponent.new(type: :check, alt: 'Ready') %>
+      <% else %>
+        <%= render IconComponent.new(type: :clock, alt: 'Not ready') %>
+      <% end %>
 
-  <div class="round_user__actions">
-    <%= button_to "Delete",
-                  round_user_path(@round_user),
-                  method: :delete %>
+      <%= button_to round_user_path(@round_user), method: :delete, data: {turbo_confirm: 'Are you sure?'} do %>
+        <%= render IconComponent.new(type: :delete) %>
+      <% end %>
+    </div>
   </div>
 </turbo-frame>

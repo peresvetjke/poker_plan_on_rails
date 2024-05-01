@@ -9,3 +9,9 @@ application.register("hello", HelloController)
 
 import RemovalsController from "./removals_controller.js"
 application.register("removals", RemovalsController)
+
+import ModalController from "./modal_controller.js"
+application.register("modal", ModalController)
+
+import TaskController from "./task_controller.js"
+application.register("task", TaskController)

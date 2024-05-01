@@ -9,7 +9,10 @@ class User < ApplicationRecord
   has_many :round_users, dependent: :destroy
   has_many :rounds, through: :round_users
 
+  validates :email, presence: true
+  validates :email, uniqueness: true, if: -> { email.present? }
+
   def username
-    super.presence || email
+    super.presence || email.split('@').first
   end
 end
