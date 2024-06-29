@@ -83,6 +83,8 @@ test:
 #
 production:
   <<: *default
-  database: poker_plan_production
-  username: poker_plan
-  password: <%= ENV["POKER_PLAN_DATABASE_PASSWORD"] %>
+  host: <%= ENV.fetch('DATABASE_HOST', 'localhost') %>
+  port: <%= ENV.fetch('DATABASE_PORT', 5432) %>
+  database: <%= ENV.fetch('DATABASE_NAME', 'poker_plan_production') %>
+  username: <%= ENV.fetch('DATABASE_USERNAME', 'poker_plan') %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
