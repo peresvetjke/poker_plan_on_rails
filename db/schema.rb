@@ -53,6 +53,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_10_091814) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
+    t.string "first_name"
+    t.string "last_name"
     t.boolean "is_moderator", default: false, null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false

@@ -28,6 +28,7 @@ services:
       DATABASE_NAME: myappdb
       DATABASE_USERNAME: my_user
       DATABASE_PASSWORD: ILoveDoingKnowBe4Training!
+      LDAP_PASSWORD: $LDAP_PASSWORD
       SECRET_KEY_BASE: $SECRET_KEY_BASE
       REDIS_URL: redis://redis:6379/0
     volumes:
